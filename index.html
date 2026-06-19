@@ -17,7 +17,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .card{background:#fff;border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
 .card-title{font-size:18px;font-weight:800;margin-bottom:4px}
 .card-sub{font-size:13px;color:var(--gray);margin-bottom:14px}
-.btn{display:flex;align-items:center;justify-content:center;width:100%;height:var(--bh);border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .1s;text-decoration:none}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;height:var(--bh);border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .1s;text-decoration:none;appearance:none;-webkit-appearance:none;box-sizing:border-box;margin:0;padding:0}
 .btn:active{transform:scale(.96)}
 .btn+.btn{margin-top:10px}
 .btn-red{background:var(--red);color:#fff}
@@ -73,8 +73,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tabs::-webkit-scrollbar{display:none}
 .tab{padding:10px 14px;font-size:14px;font-weight:700;border:none;background:none;color:var(--gray);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px}
 .tab.on{color:var(--red);border-bottom-color:var(--red)}
-.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);padding:12px 20px;display:flex;gap:10px;z-index:99}
-.bnav .btn{flex:1;height:50px}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);padding:10px 20px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:99}
+.bnav-row{display:flex;gap:10px;width:100%;align-items:center}
+.bnav-row .btn{flex:1;height:50px!important;margin-top:0!important}
+.bnav-start{background:none;border:none;font-size:12px;color:var(--gray);cursor:pointer;padding:2px 12px;text-decoration:underline;text-underline-offset:2px}
 .sh{font-size:22px;font-weight:900;margin-bottom:4px}
 .ss{font-size:14px;color:var(--gray);margin-bottom:20px}
 .wh{text-align:center;padding:30px 0 24px}
@@ -146,7 +148,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .upgrade-opt-name{font-size:14px;font-weight:800}
 .upgrade-opt-desc{font-size:11px;color:var(--gray)}
 .upgrade-opt-price{font-size:16px;font-weight:900;color:var(--red)}
-.live-total{background:#fff;border-top:2px solid var(--border);padding:10px 20px;position:fixed;bottom:74px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:98;display:flex;justify-content:space-between;align-items:center}
+.live-total{background:#fff;border-top:2px solid var(--border);padding:10px 20px;position:fixed;bottom:94px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:98;display:flex;justify-content:space-between;align-items:center}
 .lt-label{font-size:12px;color:var(--gray);font-weight:700}
 .lt-amount{font-size:24px;font-weight:900;color:var(--red)}
 .lt-mo{font-size:12px;color:var(--gray)}
@@ -186,7 +188,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <!-- STEP 1: LINE COUNT -->
 <div id="s-lines" class="screen">
-  <button class="back" onclick="go('s-welcome')">&#8592; Back</button>
   <div class="sh">How many phone lines?</div>
   <div class="ss">Include all lines switching to Verizon</div>
   <div class="g3">
@@ -198,26 +199,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <button class="btn btn-ghost" onclick="setLines(6)">6+</button>
   </div>
   <div class="note-box mt4">&#128161; More lines = lower per-line cost on myPlan.</div>
+  <div class="bnav">
+    <div class="bnav-row">
+      <button class="btn btn-ghost" onclick="go('s-welcome')">&#8592; Back</button>
+    </div>
+  </div>
 </div>
 
 <!-- STEP 1b: CUSTOM -->
 <div id="s-lines-custom" class="screen">
-  <button class="back" onclick="go('s-lines')">&#8592; Back</button>
   <div class="sh">How many lines?</div>
   <label class="flbl">Number of Lines</label>
   <input class="inp" type="number" id="custom-lines" min="6" max="12" value="6">
-  <button class="btn btn-red mt2" onclick="setLinesCustom()">Continue &#8594;</button>
+  <div class="bnav">
+    <div class="bnav-row">
+      <button class="btn btn-ghost" onclick="go('s-lines')">&#8592; Back</button>
+      <button class="btn btn-red" onclick="setLinesCustom()">Continue &#8594;</button>
+    </div>
+  </div>
 </div>
 
 <!-- STEP 2: LINE NAMES -->
 <div id="s-names" class="screen">
-  <button class="back" onclick="go('s-lines')">&#8592; Back</button>
   <div class="sh">Name Each Line</div>
   <div class="ss">Optional &#8212; leave blank for Line 1, Line 2, etc.</div>
   <div id="name-fields"></div>
   <div class="bnav">
-    <button class="btn btn-ghost" onclick="go('s-lines')">Back</button>
-    <button class="btn btn-red" onclick="saveNames()">Next &#8594;</button>
+    <div class="bnav-row">
+      <button class="btn btn-ghost" onclick="go('s-lines')">&#8592; Back</button>
+      <button class="btn btn-red" onclick="saveNames()">Next &#8594;</button>
+    </div>
+    <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
 </div>
 
@@ -225,14 +237,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div id="s-lineq" class="screen">
   <div id="lineq-content"></div>
   <div class="bnav">
-    <button class="btn btn-ghost" id="lineq-back-btn" onclick="lineqBack()">Back</button>
-    <button class="btn btn-red" id="lineq-next-btn" onclick="lineqNext()">Next &#8594;</button>
+    <div class="bnav-row">
+      <button class="btn btn-ghost" id="lineq-back-btn" onclick="lineqBack()">Back</button>
+      <button class="btn btn-red" id="lineq-next-btn" onclick="lineqNext()">Next &#8594;</button>
+    </div>
+    <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
 </div>
 
 <!-- STEP 4: CONNECTED DEVICES -->
 <div id="s-devices" class="screen">
-  <button class="back" onclick="devBack()">&#8592; Back</button>
   <div class="sh">Connected Devices</div>
   <div class="ss">Non-phone devices on this account</div>
   <div class="ctr">
@@ -253,24 +267,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
   <div class="note-box">&#128161; Simplicity gives 50% off ALL connected devices (up to $25/each). myPlan Plus gives 50% off 1 device per line; Ultimate gives 50% off 2 per line.</div>
   <div class="bnav">
-    <button class="btn btn-ghost" onclick="devBack()">Back</button>
-    <button class="btn btn-red" onclick="calcAndShow()">See Results &#8594;</button>
+    <div class="bnav-row">
+      <button class="btn btn-ghost" onclick="devBack()">&#8592; Back</button>
+      <button class="btn btn-red" onclick="calcAndShow()">See Results &#8594;</button>
+    </div>
+    <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
 </div>
 
 <!-- STEP 5: RESULTS -->
 <div id="s-results" class="screen">
-  <button class="back" onclick="go('s-devices')">&#8592; Back</button>
   <div class="sh">Quote Results</div>
   <div class="ss" id="res-subtitle"></div>
   <div class="res-grid" id="res-grid"></div>
   <div id="res-all-plans"></div>
   <div id="res-promos"></div>
+  <div class="bnav">
+    <div class="bnav-row">
+      <button class="btn btn-ghost" onclick="go('s-devices')">&#8592; Back</button>
+    </div>
+    <button class="bnav-start" onclick="startOver()">Start over</button>
+  </div>
 </div>
 
 <!-- STEP 6: CUSTOMIZE -->
 <div id="s-customize" class="screen">
-  <button class="back" onclick="go('s-results')">&#8592; Results</button>
   <div id="cust-content"></div>
   <div class="live-total" id="live-total-bar">
     <div>
@@ -280,14 +301,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div><span class="lt-amount" id="live-total-amt">$0</span><span class="lt-mo">/mo</span></div>
   </div>
   <div class="bnav">
-    <button class="btn btn-ghost btn-sm" onclick="go('s-results')">&#8592; Back</button>
-    <button class="btn btn-yellow btn-sm" onclick="goEmail()">&#128231; Email Quote</button>
+    <div class="bnav-row">
+      <button class="btn btn-ghost" onclick="goToResults()">&#8592; Results</button>
+      <button class="btn btn-yellow" onclick="goEmail()">&#128231; Email Quote</button>
+    </div>
+    <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
 </div>
 
 <!-- EMAIL -->
 <div id="s-email" class="screen">
-  <button class="back" onclick="go('s-customize')">&#8592; Back</button>
   <div class="sh">Email Quote</div>
   <div class="ss">Send to yourself and your manager</div>
   <div class="card">
@@ -306,8 +329,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
   <div id="emailjs-warning" class="alert hidden">&#9888; Email sending requires EmailJS setup. Go to Admin &#8594; Email tab.</div>
   <div class="bnav">
-    <button class="btn btn-ghost" onclick="go('s-customize')">Back</button>
-    <button class="btn btn-red" onclick="sendEmail()">Send Email &#128228;</button>
+    <div class="bnav-row">
+      <button class="btn btn-ghost" onclick="go('s-customize')">&#8592; Back</button>
+      <button class="btn btn-red" onclick="sendEmail()">Send Email &#128228;</button>
+    </div>
+    <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
 </div>
 
@@ -538,8 +564,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
 
   <div class="bnav">
-    <button class="btn btn-ghost" onclick="go('s-welcome')">Exit Admin</button>
-    <button class="btn btn-red" onclick="saveAdmin()">Save &amp; Download</button>
+    <div class="bnav-row">
+      <button class="btn btn-ghost" onclick="go('s-welcome')">Exit Admin</button>
+      <button class="btn btn-red" onclick="saveAdmin()">Save &amp; Download</button>
+    </div>
   </div>
 </div>
 
@@ -595,20 +623,20 @@ let CONFIG = {
     {id:"simp-pro",  name:"Simplicity Pro", price:50, desc:"Annual upgrade on any carrier + device unlock"}
   ],
   phones: [
-    {type:"phone",  brand:"Apple",   name:"iPhone 16",          capacities:[{s:"128GB",p:799},{s:"256GB",p:899},{s:"512GB",p:1099}],            colors:["Black","White","Pink","Teal","Ultramarine"],              promoEligible:true,  byodEligible:true,  active:true, notes:""},
-    {type:"phone",  brand:"Apple",   name:"iPhone 16 Plus",     capacities:[{s:"256GB",p:899},{s:"512GB",p:1099},{s:"1TB",p:1299}],              colors:["Black","White","Pink","Teal","Ultramarine"],              promoEligible:true,  byodEligible:true,  active:true, notes:""},
-    {type:"phone",  brand:"Apple",   name:"iPhone 16 Pro",      capacities:[{s:"256GB",p:999},{s:"512GB",p:1099},{s:"1TB",p:1299}],              colors:["Black Titanium","White Titanium","Natural Titanium","Desert Titanium"], promoEligible:true, byodEligible:true, active:true, notes:""},
-    {type:"phone",  brand:"Apple",   name:"iPhone 16 Pro Max",  capacities:[{s:"256GB",p:1199},{s:"512GB",p:1299},{s:"1TB",p:1499}],             colors:["Black Titanium","White Titanium","Natural Titanium","Desert Titanium"], promoEligible:true, byodEligible:true, active:true, notes:""},
-    {type:"phone",  brand:"Samsung", name:"Galaxy S25",         capacities:[{s:"128GB",p:799},{s:"256GB",p:859}],                                colors:["Icy Blue","Mint","Navy","Silver Shadow"],                 promoEligible:true,  byodEligible:true,  active:true, notes:""},
-    {type:"phone",  brand:"Samsung", name:"Galaxy S25+",        capacities:[{s:"256GB",p:999},{s:"512GB",p:1119}],                               colors:["Icy Blue","Mint","Navy","Silver Shadow"],                 promoEligible:true,  byodEligible:true,  active:true, notes:""},
-    {type:"phone",  brand:"Samsung", name:"Galaxy S25 Ultra",   capacities:[{s:"256GB",p:1299},{s:"512GB",p:1419},{s:"1TB",p:1659}],             colors:["Titanium Black","Titanium Gray","Titanium Silverblue","Titanium Whitesilver"], promoEligible:true, byodEligible:true, active:true, notes:""},
-    {type:"phone",  brand:"Google",  name:"Pixel 9",            capacities:[{s:"128GB",p:799},{s:"256GB",p:899}],                                colors:["Obsidian","Porcelain","Wintergreen","Peony"],             promoEligible:true,  byodEligible:true,  active:true, notes:""},
-    {type:"phone",  brand:"Google",  name:"Pixel 9 Pro",        capacities:[{s:"128GB",p:999},{s:"256GB",p:1099},{s:"512GB",p:1199}],            colors:["Obsidian","Porcelain","Hazel","Rose Quartz"],             promoEligible:true,  byodEligible:true,  active:true, notes:""},
-    {type:"tablet", brand:"Apple",   name:"iPad (10th Gen)",    capacities:[{s:"64GB",p:449},{s:"256GB",p:599}],                                 colors:["Blue","Pink","Yellow","Silver"],                          promoEligible:false, byodEligible:false, active:true, notes:""},
-    {type:"tablet", brand:"Apple",   name:"iPad Air (M2)",      capacities:[{s:"128GB",p:599},{s:"256GB",p:749},{s:"512GB",p:999}],              colors:["Blue","Purple","Starlight","Space Gray"],                 promoEligible:false, byodEligible:false, active:true, notes:""},
-    {type:"tablet", brand:"Samsung", name:"Galaxy Tab S10 FE",  capacities:[{s:"128GB",p:549},{s:"256GB",p:649}],                                colors:["Graphite","Mint","Lavender"],                             promoEligible:false, byodEligible:false, active:true, notes:""},
-    {type:"watch",  brand:"Apple",   name:"Apple Watch Series 10",capacities:[{s:"GPS 42mm",p:399},{s:"GPS+Cell 42mm",p:499},{s:"GPS 46mm",p:429},{s:"GPS+Cell 46mm",p:529}], colors:["Aluminum","Black Aluminum","Rose Gold Aluminum","Silver Aluminum"], promoEligible:false, byodEligible:false, active:true, notes:""},
-    {type:"watch",  brand:"Samsung", name:"Galaxy Watch 7",     capacities:[{s:"40mm",p:299},{s:"44mm",p:329}],                                  colors:["Cream","Green","Silver"],                                promoEligible:false, byodEligible:false, active:true, notes:""}
+    {type:"phone",  brand:"Apple",   name:"iPhone 16",          capacities:[{s:"128GB",p:799},{s:"256GB",p:899},{s:"512GB",p:1099}],            colors:["Black","White","Pink","Teal","Ultramarine"],              promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
+    {type:"phone",  brand:"Apple",   name:"iPhone 16 Plus",     capacities:[{s:"256GB",p:899},{s:"512GB",p:1099},{s:"1TB",p:1299}],              colors:["Black","White","Pink","Teal","Ultramarine"],              promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
+    {type:"phone",  brand:"Apple",   name:"iPhone 16 Pro",      capacities:[{s:"256GB",p:999},{s:"512GB",p:1099},{s:"1TB",p:1299}],              colors:["Black Titanium","White Titanium","Natural Titanium","Desert Titanium"], promoEligible:true, byodEligible:true, active:true, simpUpgrade:"both", notes:""},
+    {type:"phone",  brand:"Apple",   name:"iPhone 16 Pro Max",  capacities:[{s:"256GB",p:1199},{s:"512GB",p:1299},{s:"1TB",p:1499}],             colors:["Black Titanium","White Titanium","Natural Titanium","Desert Titanium"], promoEligible:true, byodEligible:true, active:true, simpUpgrade:"both", notes:""},
+    {type:"phone",  brand:"Samsung", name:"Galaxy S25",         capacities:[{s:"128GB",p:799},{s:"256GB",p:859}],                                colors:["Icy Blue","Mint","Navy","Silver Shadow"],                 promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
+    {type:"phone",  brand:"Samsung", name:"Galaxy S25+",        capacities:[{s:"256GB",p:999},{s:"512GB",p:1119}],                               colors:["Icy Blue","Mint","Navy","Silver Shadow"],                 promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
+    {type:"phone",  brand:"Samsung", name:"Galaxy S25 Ultra",   capacities:[{s:"256GB",p:1299},{s:"512GB",p:1419},{s:"1TB",p:1659}],             colors:["Titanium Black","Titanium Gray","Titanium Silverblue","Titanium Whitesilver"], promoEligible:true, byodEligible:true, active:true, simpUpgrade:"both", notes:""},
+    {type:"phone",  brand:"Google",  name:"Pixel 9",            capacities:[{s:"128GB",p:799},{s:"256GB",p:899}],                                colors:["Obsidian","Porcelain","Wintergreen","Peony"],             promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
+    {type:"phone",  brand:"Google",  name:"Pixel 9 Pro",        capacities:[{s:"128GB",p:999},{s:"256GB",p:1099},{s:"512GB",p:1199}],            colors:["Obsidian","Porcelain","Hazel","Rose Quartz"],             promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
+    {type:"tablet", brand:"Apple",   name:"iPad (10th Gen)",    capacities:[{s:"64GB",p:449},{s:"256GB",p:599}],                                 colors:["Blue","Pink","Yellow","Silver"],                          promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""},
+    {type:"tablet", brand:"Apple",   name:"iPad Air (M2)",      capacities:[{s:"128GB",p:599},{s:"256GB",p:749},{s:"512GB",p:999}],              colors:["Blue","Purple","Starlight","Space Gray"],                 promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""},
+    {type:"tablet", brand:"Samsung", name:"Galaxy Tab S10 FE",  capacities:[{s:"128GB",p:549},{s:"256GB",p:649}],                                colors:["Graphite","Mint","Lavender"],                             promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""},
+    {type:"watch",  brand:"Apple",   name:"Apple Watch Series 10",capacities:[{s:"GPS 42mm",p:399},{s:"GPS+Cell 42mm",p:499},{s:"GPS 46mm",p:429},{s:"GPS+Cell 46mm",p:529}], colors:["Aluminum","Black Aluminum","Rose Gold Aluminum","Silver Aluminum"], promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""},
+    {type:"watch",  brand:"Samsung", name:"Galaxy Watch 7",     capacities:[{s:"40mm",p:299},{s:"44mm",p:329}],                                  colors:["Cream","Green","Silver"],                                promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""}
   ]
 };
 // __CONFIG_END__
@@ -639,10 +667,24 @@ let state = {
   perkExpanded: {}
 };
 
+function startOver() {
+  if (!confirm("Start a new quote? This will clear the current quote.")) return;
+  state.lines = [];
+  state.lineCount = 1;
+  state.currentLineIdx = 0;
+  state.currentLineQ = 0;
+  state.devices = { tablets:0, watches:0 };
+  state.quotes = {};
+  state.selectedPlanType = null;
+  state.navHistory = ["s-welcome"];
+  state.perkExpanded = {};
+  go("s-welcome");
+}
+
 function freshLine(i) {
   return { name:"Line "+(i+1), hotspot:0, travel:0, deviceDeal:"byod",
            selectedPhone:null, selectedPlan:null,
-           bundleId:null, perkIds:[], simpUpgrade:null, financeTerm:null };
+           bundleId:null, perkIds:[], myplanPerkIds:[], simpPerkIds:[], simpUpgrade:null, financeTerm:null, myplanFinanceTerm:null, simpFinanceTerm:null };
 }
 
 // ============================================================
@@ -722,9 +764,9 @@ const DEAL_OPTS = [
 ];
 const Q_LABELS = ["Hotspot Usage","International Travel","Phone Selection"];
 
-// Q0=hotspot, Q1=travel, Q2=deal, Q3=phone picker (non-byod only)
+// Q0=hotspot, Q1=travel, Q2=deal, Q3=phone picker, Q4=financing (non-byod only)
 function lineqSteps(deal) {
-  return deal === "byod" ? 3 : 4;
+  return deal === "byod" ? 3 : 5;
 }
 
 function buildLineQ() {
@@ -762,6 +804,48 @@ function buildLineQ() {
   } else if (q === 3) {
     // Phone picker
     body = buildPhonePickerHTML(line, idx);
+  } else if (q === 4) {
+    // Financing options — apply defaults on first visit
+    if (line.myplanFinanceTerm === null) line.myplanFinanceTerm = 36;
+    if (line.simpFinanceTerm === null)   line.simpFinanceTerm   = 48;
+    const _sp = line.selectedPhone;
+    const _ph = (_sp && _sp.phoneIdx !== null && _sp.phoneIdx !== undefined) ? CONFIG.phones[_sp.phoneIdx] : null;
+    const _cap = (_ph && _sp.capIdx !== null && _sp.capIdx !== undefined) ? _ph.capacities[_sp.capIdx] : null;
+    body = `<div class="sh">Payment Options</div><div class="ss">${line.name}'s device financing</div>`;
+    if (!_ph || !_cap) {
+      body += `<div class="info-box">No phone selected — financing options can be set on the customize screen.</div>`;
+    } else {
+      const _price = _cap.p;
+      const _mpt = line.myplanFinanceTerm;
+      const _st = line.simpFinanceTerm;
+      const opt = (label, desc, priceStr, sel, clickStr) =>
+        `<div class="upgrade-opt ${sel?"sel":""}" onclick="${clickStr}" style="cursor:pointer;margin-bottom:6px">
+          <div><div class="upgrade-opt-name">${label}</div><div class="upgrade-opt-desc">${desc}</div></div>
+          <div class="upgrade-opt-price">${priceStr}</div>
+        </div>`;
+      body += `<div class="card" style="margin-bottom:12px">
+        <div class="card-title" style="font-size:14px;margin-bottom:4px">myPlan Financing</div>
+        <div style="font-size:12px;color:var(--gray);margin-bottom:10px">0% APR financing on myPlan is 36 months only</div>
+        ${opt("Full Retail Price",""+fmt(_price)+" one-time at activation",fmt(_price),_mpt==="frp","pickFinanceTerm('myplan','frp')")}
+        ${opt("36-Month 0% APR",""+fmt(_price)+" total · 36 payments","+"+fmt(_price/36)+"/mo",_mpt===36,"pickFinanceTerm('myplan',36)")}
+      </div>`;
+      // Price-based upgrade eligibility: ≤$830 → Plus, $830.01-$1200 → Pro, >$1200 → none
+      const _upgradeOption = _price <= 830
+        ? CONFIG.simplicityUpgrades.find(x=>x.id==="simp-plus")
+        : _price <= 1200
+        ? CONFIG.simplicityUpgrades.find(x=>x.id==="simp-pro")
+        : null;
+      const _upgradeSelected = _upgradeOption && line.simpUpgrade === _upgradeOption.id;
+      body += `<div class="card">
+        <div class="card-title" style="font-size:14px;margin-bottom:4px">Simplicity Financing</div>
+        <div style="font-size:12px;color:var(--gray);margin-bottom:10px">Multiple term options available on Simplicity</div>
+        ${opt("Full Retail Price",""+fmt(_price)+" one-time at activation",fmt(_price),_st==="frp","pickFinanceTerm('simplicity','frp')")}
+        ${[12,24,36,48].map(t=>opt(t+"-Month 0% APR",""+fmt(_price)+" total · "+t+" payments","+"+fmt(_price/t)+"/mo",_st===t,"pickFinanceTerm('simplicity',"+t+")")).join("")}
+        ${_upgradeOption ? `<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--gray);margin:12px 0 4px;border-top:1px solid var(--border);padding-top:10px">— or — Annual Upgrade Program</div>
+          <div style="font-size:11px;color:var(--gray);margin-bottom:8px">Replaces financing — trade in annually</div>
+          ${opt(_upgradeOption.name,_upgradeOption.desc,"+"+fmt(_upgradeOption.price)+"/mo",_upgradeSelected,"pickWizardSimpUpgrade('"+_upgradeOption.id+"')")}` : ""}
+      </div>`;
+    }
   }
 
   document.getElementById("lineq-content").innerHTML = `
@@ -862,7 +946,7 @@ function buildPhonePickerHTML(line, lineIdx) {
     const isSel = isExp && sel.capIdx !== null && sel.capIdx !== undefined;
     const minP = Math.min(...ph.capacities.map(c => c.p));
     const capBtns = ph.capacities.map((c,ci) =>
-      `<button class="cap-btn ${isExp && sel.capIdx === ci ? "sel":""}" onclick="selectCap(${realIdx},${ci})">${c.s} &mdash; $${c.p}</button>`
+      `<button class="cap-btn ${isExp && sel.capIdx === ci ? "sel":""}" onclick="event.stopPropagation();selectCap(${realIdx},${ci})">${c.s} &mdash; $${c.p}</button>`
     ).join("");
     const colorSwatches = ph.colors.map(col => {
       const colMap = {
@@ -879,15 +963,15 @@ function buildPhonePickerHTML(line, lineIdx) {
       };
       const bg = colMap[col] || "#cccccc";
       const isSC = isExp && sel.color === col;
-      return `<span class="color-swatch ${isSC?"sel":""}" style="background:${bg}" title="${col}" onclick="selectColor(${realIdx},'${col.replace(/'/g,"\\'")}')"></span>`;
+      return `<span class="color-swatch ${isSC?"sel":""}" style="background:${bg}" title="${col}" onclick="event.stopPropagation();selectColor(${realIdx},'${col.replace(/'/g,"\\'")}')"></span>`;
     }).join("");
 
     const confirmBtn = isExp && sel.capIdx !== null && sel.capIdx !== undefined && sel.color
-      ? `<button class="btn btn-red btn-sm" onclick="confirmPhone(${realIdx})">Select This Phone ✓</button>`
+      ? `<button class="btn btn-red btn-sm" onclick="event.stopPropagation();confirmPhone(${realIdx})">Select This Phone ✓</button>`
       : `<div style="font-size:12px;color:var(--gray);text-align:center;margin-top:4px">Pick a size and color to confirm</div>`;
 
-    return `<div class="phone-card ${isExp?"expanded":""} ${isSel&&sel.color?"selected-phone":""}" onclick="if(event.target===this||event.target.classList.contains('phone-hd')||event.target.classList.contains('phone-name')||event.target.classList.contains('phone-brand'))togglePhone(${realIdx})">
-      <div class="phone-hd" onclick="togglePhone(${realIdx})">
+    return `<div class="phone-card ${isExp?"expanded":""} ${isSel&&sel.color?"selected-phone":""}" onclick="togglePhone(${realIdx})">
+      <div class="phone-hd">
         <div>
           <div class="phone-brand">${ph.brand}</div>
           <div class="phone-name">${ph.name}</div>
@@ -958,12 +1042,38 @@ function selectColor(realIdx, color) {
   buildLineQ();
 }
 
+function pickFinanceTerm(planType, term) {
+  const l = state.lines[state.currentLineIdx];
+  if (planType === "myplan") {
+    l.myplanFinanceTerm = term;
+  } else {
+    l.simpFinanceTerm = term;
+    l.simpUpgrade = null; // financing and upgrade are mutually exclusive
+  }
+  buildLineQ();
+}
+
+function pickWizardSimpUpgrade(upgradeId) {
+  const l = state.lines[state.currentLineIdx];
+  l.simpUpgrade = upgradeId;
+  if (upgradeId !== null) l.simpFinanceTerm = null; // upgrade replaces financing
+  buildLineQ();
+}
+
 function confirmPhone(realIdx) {
   lineqNext();
 }
 
 function skipPhone() {
-  lineqNext();
+  // Skip phone AND financing — jump directly to next line or devices
+  state.lines[state.currentLineIdx].selectedPhone = null;
+  if (state.currentLineIdx < state.lines.length - 1) {
+    state.currentLineIdx++;
+    state.currentLineQ = 0;
+    buildLineQ();
+  } else {
+    go("s-devices");
+  }
 }
 
 // ============================================================
@@ -1031,14 +1141,24 @@ function calcMyPlan() {
     const p = CONFIG.perks.individual.find(x=>x.id===pid); return ps+(p?p.price:0);
   }, 0), 0);
 
+  const myFinanceTotal = state.lines.reduce((s,l) => {
+    const ft = l.myplanFinanceTerm;
+    if (!ft || ft === "frp") return s;
+    const sp = l.selectedPhone;
+    if (!sp || sp.phoneIdx == null || sp.capIdx == null) return s;
+    const ph = CONFIG.phones[sp.phoneIdx];
+    const cap = ph && ph.capacities[sp.capIdx];
+    return s + (cap ? cap.p / ft : 0);
+  }, 0);
   return {
     type: "myplan",
     phoneTotal,
     perkTotal,
+    financeTotal: myFinanceTotal,
     deviceBase: devCalcCorrect.base,
     deviceDisc: devCalcCorrect.disc,
     deviceNet:  devCalcCorrect.net,
-    grandTotal: phoneTotal + perkTotal + devCalcCorrect.net,
+    grandTotal: phoneTotal + perkTotal + devCalcCorrect.net + myFinanceTotal,
     forced: anyPromo
   };
 }
@@ -1052,15 +1172,31 @@ function calcSimplicity() {
   const perkTotal = state.lines.reduce((s,l) => s + l.perkIds.reduce((ps,pid) => {
     const p = CONFIG.perks.individual.find(x=>x.id===pid); return ps+(p?p.price:0);
   }, 0), 0);
+  const simpFinanceTotal = state.lines.reduce((s,l) => {
+    const ft = l.simpFinanceTerm;
+    if (!ft || ft === "frp") return s;
+    const sp = l.selectedPhone;
+    if (!sp || sp.phoneIdx == null || sp.capIdx == null) return s;
+    const ph = CONFIG.phones[sp.phoneIdx];
+    const cap = ph && ph.capacities[sp.capIdx];
+    return s + (cap ? cap.p / ft : 0);
+  }, 0);
+  const simpUpgradeTotal = state.lines.reduce((s,l) => {
+    if (!l.simpUpgrade) return s;
+    const u = CONFIG.simplicityUpgrades.find(x => x.id === l.simpUpgrade);
+    return s + (u ? u.price : 0);
+  }, 0);
   return {
     type: "simplicity",
     pricePerLine: CONFIG.simplicity.priceFullDiscount,
     phoneTotal,
     perkTotal,
+    financeTotal: simpFinanceTotal,
+    upgradeTotal: simpUpgradeTotal,
     deviceBase: devCalc.base,
     deviceDisc: devCalc.disc,
     deviceNet:  devCalc.net,
-    grandTotal: phoneTotal + perkTotal + devCalc.net
+    grandTotal: phoneTotal + perkTotal + devCalc.net + simpFinanceTotal + simpUpgradeTotal
   };
 }
 
@@ -1100,11 +1236,26 @@ function calcAndShow() {
   const anyPromo = state.lines.some(l => l.deviceDeal === "promo");
 
   // Reset per-line choices, then auto-optimize hotspot perks + tiers
-  state.lines.forEach(l => { l.bundleId = null; l.perkIds = []; l.simpUpgrade = null; l.selectedPlan = null; });
-  autoAssignHotspotPerks();
+  state.lines.forEach(l => { l.bundleId = null; l.perkIds = []; l.selectedPlan = null; });
+  autoAssignHotspotPerks(); // perkIds set for myPlan optimization
 
-  state.quotes.myplan = calcMyPlan();
+  // Store plan-specific perk sets:
+  // Simplicity includes 10 GB hotspot — level 1 (under 10 GB) needs no perk there
+  state.lines.forEach(l => {
+    l.myplanPerkIds = [...l.perkIds];
+    l.simpPerkIds   = l.perkIds.filter(pid =>
+      !((pid === "hs-100gb" || pid === "hs-unlimited") && l.hotspot <= 1)
+    );
+  });
+
+  state.quotes.myplan = calcMyPlan(); // uses perkIds = myplanPerkIds (already set)
+
+  // Swap to Simplicity perks for Simplicity calc
+  state.lines.forEach(l => l.perkIds = [...l.simpPerkIds]);
   state.quotes.simplicity = calcSimplicity();
+
+  // Restore myPlan perks as default until user opens a customize screen
+  state.lines.forEach(l => l.perkIds = [...l.myplanPerkIds]);
 
   buildResults(anyPromo);
   go("s-results");
@@ -1121,16 +1272,11 @@ function buildResults(anyPromo) {
   document.getElementById("res-subtitle").textContent =
     `${n} line${n>1?"s":""} · tap a card to build the full quote`;
 
+  const anyIntl = state.lines.some(l => l.travel >= 2);
   let cheapKey, recKey;
-  if (anyPromo) {
-    cheapKey = "myplan"; recKey = "myplan";
-  } else {
-    cheapKey = sq.grandTotal <= mq.grandTotal ? "simplicity" : "myplan";
-    recKey = cheapKey;
-    // Override rec if travel/hotspot needs push to myplan despite cost
-    const anyIntl = state.lines.some(l => l.travel >= 2);
-    if (anyIntl && cheapKey === "simplicity") recKey = "myplan";
-  }
+  cheapKey = sq.grandTotal <= mq.grandTotal ? "simplicity" : "myplan";
+  // Simplicity is Best Fit by default — only switch to myPlan for international travel needs
+  recKey = anyIntl ? "myplan" : "simplicity";
 
   state.cheapKey = cheapKey;
   state.recKey = recKey;
@@ -1144,31 +1290,82 @@ function buildResults(anyPromo) {
     return `<span class="res-badge" style="background:var(--lgray);color:var(--gray)">Option</span>`;
   };
 
+  const buildBreakdown = (key, q) => {
+    const nk = nKey(state.lineCount);
+    const lineRows = state.lines.map(l => {
+      const tier = l.selectedPlan || "welcome";
+      const tierLabel = tier==="welcome"?"Welcome":tier==="plus"?"Plus":"Ultimate";
+      const planPrice = key==="simplicity" ? CONFIG.simplicity.priceFullDiscount : CONFIG.myplan[tier][nk];
+      const linePerkIds = key==="simplicity" ? (l.simpPerkIds||[]) : (l.myplanPerkIds||[]);
+      const perkCost = linePerkIds.reduce((s,pid)=>{const p=CONFIG.perks.individual.find(x=>x.id===pid);return s+(p?p.price:0);},0);
+      const perkNames = linePerkIds.map(pid=>(CONFIG.perks.individual.find(x=>x.id===pid)||{name:""}).name).filter(Boolean);
+      const ft = key==="simplicity" ? l.simpFinanceTerm : l.myplanFinanceTerm;
+      let devPayment = 0, devNote = "";
+      const sp = l.selectedPhone;
+      if (sp && sp.phoneIdx != null && sp.capIdx != null) {
+        const ph = CONFIG.phones[sp.phoneIdx];
+        const cap = ph && ph.capacities[sp.capIdx];
+        if (cap) {
+          if (ft && ft !== "frp") { devPayment = cap.p/ft; devNote = ph.name+" "+cap.s+": "+fmt(devPayment)+"/mo ("+ft+"-mo 0% APR)"; }
+          else if (ft === "frp") { devNote = ph.name+" "+cap.s+": due today (FRP)"; }
+        }
+      }
+      let upgradePayment = 0, upgradeNote = "";
+      if (key==="simplicity" && l.simpUpgrade) {
+        const u = CONFIG.simplicityUpgrades.find(x=>x.id===l.simpUpgrade);
+        if (u) { upgradePayment = u.price; upgradeNote = u.name+": +"+fmt(u.price)+"/mo"; }
+      }
+      const lineTotal = planPrice + perkCost + devPayment + upgradePayment;
+      return `<div style="margin-bottom:6px;font-size:12px">
+        <div style="display:flex;justify-content:space-between"><span style="font-weight:700">${l.name}</span><span>${fmt(lineTotal)}/mo</span></div>
+        <div style="color:var(--gray)">${key==="simplicity"?"Simplicity":tierLabel}${perkCost>0?" + "+perkNames.join(", "):""}</div>
+        ${devNote?`<div style="color:var(--gray);font-size:11px">${devNote}</div>`:""}
+        ${upgradeNote?`<div style="color:var(--gray);font-size:11px">${upgradeNote}</div>`:""}
+      </div>`;
+    }).join("");
+    const {tablets, watches} = state.devices;
+    let devRow = "";
+    if (tablets+watches>0) {
+      const _slots = key==="simplicity"?undefined:state.lines.reduce((s,l)=>s+(l.selectedPlan==="ultimate"?2:l.selectedPlan==="plus"?1:0),0);
+      const dc = calcDeviceDiscount(key==="simplicity"?"simplicity":"myplan",tablets,watches,_slots);
+      devRow = `<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px">
+        <span style="color:var(--gray)">Connected Devices${dc.disc>0?" (discount applied)":""}</span><span>${fmt(dc.net)}/mo</span></div>`;
+    }
+    return `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+      ${lineRows}${devRow}
+      <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)">
+        <span>Estimated Total</span><span>${fmt(q.grandTotal)}/mo</span>
+      </div>
+    </div>`;
+  };
+
   const card = (key, q) => `
-    <div class="res-card ${key===recKey?"rec":""}" onclick="openCustomize('${key}')">
+    <div class="res-card ${key===recKey?"rec":""}">
       ${makeBadges(key)}
       <div class="res-plan">${key==="simplicity" ? "Simplicity Plan" : "myPlan (mix & match)"}</div>
       <div class="res-price">${fmt(q.grandTotal)}</div>
       <div class="res-mo">/month est.</div>
       ${key==="myplan" ? `<div style="font-size:11px;color:var(--gray);margin-top:6px">Per-line tiers can be customized</div>` : ""}
       ${key==="myplan" && anyPromo ? `<div style="font-size:11px;color:var(--red);margin-top:4px;font-weight:700">✓ Device promos available</div>` : ""}
-      <div class="res-tap">Tap to customize →</div>
+      <div style="font-size:11px;color:var(--gray);margin-top:8px;cursor:pointer;text-decoration:underline;text-underline-offset:2px" onclick="this.nextElementSibling.classList.toggle('hidden');this.textContent=this.nextElementSibling.classList.contains('hidden')?'▼ Show breakdown':'▲ Hide breakdown'">▲ Hide breakdown</div>
+      <div>${buildBreakdown(key, q)}</div>
+      ${(()=>{const _frp=state.lines.reduce((s,l)=>{const ft=key==="simplicity"?l.simpFinanceTerm:l.myplanFinanceTerm;if(ft!=="frp")return s;const sp=l.selectedPhone;if(!sp||sp.phoneIdx==null||sp.capIdx==null)return s;const ph=CONFIG.phones[sp.phoneIdx];const cap=ph&&ph.capacities[sp.capIdx];return s+(cap?cap.p:0);},0);return `<div style="margin-top:8px;padding:8px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--gray)">Due today</span><span style="font-weight:700">${_frp>0?fmt(_frp)+" + ":""}Taxes &amp; Fees</span></div>`;})()}
+      <button class="btn btn-red" style="margin-top:12px;height:44px;font-size:14px" onclick="openCustomize('${key}')">Customize →</button>
     </div>`;
 
   // Always show BOTH options — Simplicity left, myPlan right
   document.getElementById("res-grid").innerHTML = card("simplicity", sq) + card("myplan", mq);
 
   // Why section
+  const diff = Math.abs(mq.grandTotal - sq.grandTotal);
   let why = "";
-  if (anyPromo) {
-    why = "<strong>myPlan required:</strong> Device promotions and trade-in deals are only available on myPlan (Welcome, Plus, or Ultimate). Each line can be on a different tier.";
-  } else if (cheapKey !== recKey) {
-    const diff = Math.abs(mq.grandTotal - sq.grandTotal);
-    why = `<strong>Simplicity</strong> costs ${fmt(diff)}/mo less. <strong>myPlan</strong> is recommended because at least one line frequently travels internationally (15 GB international data included on Ultimate).`;
-  } else if (recKey === "simplicity") {
-    why = "Simplicity is the lowest cost option and covers this account's needs. myPlan is also shown for comparison — it's useful if a customer wants a device promo later.";
+  if (anyIntl) {
+    const simpDiff = sq.grandTotal < mq.grandTotal ? ` Simplicity costs ${fmt(diff)}/mo less but does not include international data.` : "";
+    why = `<strong>myPlan recommended:</strong> At least one line needs international data, which is included on the Ultimate tier.${simpDiff}`;
   } else {
-    why = "myPlan is both the lowest cost and best fit for this account's needs. Lines can be on different tiers. Simplicity is shown for comparison.";
+    // Simplicity is Best Fit — explain the difference
+    const cheaper = cheapKey === "simplicity" ? `Simplicity costs ${fmt(diff)}/mo less. ` : (diff < 1 ? "Both plans are similarly priced. " : `myPlan costs ${fmt(diff)}/mo less, but `);
+    why = `${cheaper}Simplicity is the simpler, all-inclusive plan — no tier decisions, 10 GB hotspot built in, and flexible financing terms. myPlan is worth considering if the customer may want a device promo in the future.`;
   }
 
   // myPlan line breakdown
@@ -1234,8 +1431,43 @@ function renderFinancingSection(line, lineIdx, planType) {
 }
 
 function setFinanceTerm(lineIdx, term) {
-  state.lines[lineIdx].financeTerm = term;
+  const l = state.lines[lineIdx];
+  l.financeTerm = term;
+  const pt = state.selectedPlanType;
+  if (pt === "simplicity") {
+    l.simpFinanceTerm = term;
+    if (term === "frp" || term === null) l.simpUpgrade = null; // upgrade requires financing
+  } else {
+    l.myplanFinanceTerm = term;
+  }
   renderCustomize();
+}
+
+function goToResults() {
+  const pt = state.selectedPlanType;
+  const anyPromo = state.lines.some(l => l.deviceDeal === "promo");
+
+  // Sync live perkIds back to the active plan's specific array
+  state.lines.forEach(l => {
+    if (pt === "simplicity") l.simpPerkIds = [...l.perkIds];
+    else l.myplanPerkIds = [...l.perkIds];
+  });
+
+  // Recalculate myPlan quote using myplanPerkIds
+  state.lines.forEach(l => l.perkIds = [...(l.myplanPerkIds || [])]);
+  state.quotes.myplan = calcMyPlan();
+
+  // Recalculate Simplicity quote using simpPerkIds
+  state.lines.forEach(l => l.perkIds = [...(l.simpPerkIds || [])]);
+  state.quotes.simplicity = calcSimplicity();
+
+  // Restore perkIds for whichever plan was open
+  state.lines.forEach(l => {
+    l.perkIds = [...(pt === "simplicity" ? (l.simpPerkIds || []) : (l.myplanPerkIds || []))];
+  });
+
+  buildResults(anyPromo);
+  go("s-results");
 }
 
 // ============================================================
@@ -1243,6 +1475,10 @@ function setFinanceTerm(lineIdx, term) {
 // ============================================================
 function openCustomize(planType) {
   state.selectedPlanType = planType;
+  state.lines.forEach(l => {
+    l.perkIds = [...(planType === "simplicity" ? (l.simpPerkIds || []) : (l.myplanPerkIds || []))];
+    l.financeTerm = planType === "simplicity" ? (l.simpFinanceTerm || null) : (l.myplanFinanceTerm || null);
+  });
   renderCustomize();
   go("s-customize");
 }
@@ -1276,18 +1512,26 @@ function renderCustomize() {
         </div>
         ${getSimpHotspotNoteHTML(l)}
 
-        <div class="perk-section">
-          <div class="perk-section-title">Annual Upgrade (optional)</div>
-          <div class="upgrade-opt ${l.simpUpgrade===null?"sel":""}" onclick="setSimpUpgrade(${i},null)">
-            <div><div class="upgrade-opt-name">No Upgrade Plan</div><div class="upgrade-opt-desc">Keep phone as long as you want</div></div>
-            <div class="upgrade-opt-price">$0</div>
-          </div>
-          ${CONFIG.simplicityUpgrades.map(u => `
-          <div class="upgrade-opt ${l.simpUpgrade===u.id?"sel":""}" onclick="setSimpUpgrade(${i},'${u.id}')">
-            <div><div class="upgrade-opt-name">${u.name}</div><div class="upgrade-opt-desc">${u.desc}</div></div>
-            <div class="upgrade-opt-price">+${fmt(u.price)}</div>
-          </div>`).join("")}
-        </div>
+        ${(()=>{
+          const _hasFinanced = l.deviceDeal !== "byod" && l.selectedPhone && l.selectedPhone.phoneIdx != null && l.selectedPhone.capIdx != null && l.simpFinanceTerm && l.simpFinanceTerm !== "frp";
+          if (!_hasFinanced) return "";
+          const _uph = CONFIG.phones[l.selectedPhone.phoneIdx];
+          const _ucap = _uph && _uph.capacities[l.selectedPhone.capIdx];
+          const _uprice = _ucap ? _ucap.p : 0;
+          const _uopt = _uprice <= 830 ? CONFIG.simplicityUpgrades.find(x=>x.id==="simp-plus") : _uprice <= 1200 ? CONFIG.simplicityUpgrades.find(x=>x.id==="simp-pro") : null;
+          if (!_uopt) return "";
+          return `<div class="perk-section">
+            <div class="perk-section-title">Annual Upgrade (optional)</div>
+            <div class="upgrade-opt ${l.simpUpgrade===null?"sel":""}" onclick="setSimpUpgrade(${i},null)">
+              <div><div class="upgrade-opt-name">No Upgrade Plan</div><div class="upgrade-opt-desc">Keep phone as long as you want</div></div>
+              <div class="upgrade-opt-price">$0</div>
+            </div>
+            <div class="upgrade-opt ${l.simpUpgrade===_uopt.id?"sel":""}" onclick="setSimpUpgrade(${i},'${_uopt.id}')">
+              <div><div class="upgrade-opt-name">${_uopt.name}</div><div class="upgrade-opt-desc">${_uopt.desc}</div></div>
+              <div class="upgrade-opt-price">+${fmt(_uopt.price)}/mo</div>
+            </div>
+          </div>`;
+        })()}
 
         ${renderFinancingSection(l, i, "simplicity")}
         ${renderPerkSection(i, "simplicity")}
@@ -2025,7 +2269,6 @@ if (CONFIG.email.publicKey) {
   s.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
   document.head.appendChild(s);
 }
-
 </script>
 </body>
 </html>
