@@ -2,169 +2,233 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Verizon Plan Advisor</title>
 
 <style>
 body {
-  font-family: Arial;
-  padding: 15px;
+  font-family: Arial, sans-serif;
+  background: #0a0a0a;
+  color: white;
   max-width: 500px;
   margin: auto;
+  padding: 15px;
 }
 
-h2 {
-  margin-top: 10px;
-}
+h2 { text-align: center; }
 
 .card {
+  background: #1c1c1c;
   padding: 15px;
-  border-radius: 12px;
-  background: #f5f5f5;
-  margin-bottom: 10px;
+  border-radius: 14px;
+  margin-bottom: 12px;
 }
 
 button {
-  padding: 12px;
   width: 100%;
+  padding: 14px;
+  margin-top: 8px;
   border: none;
-  border-radius: 10px;
-  background: #0070f3;
+  border-radius: 12px;
+  background: #e60000;
   color: white;
   font-size: 16px;
-  margin-top: 10px;
+  font-weight: bold;
 }
 
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.small-btn {
+  background: #333;
+}
+
+.topbar {
+  text-align: right;
   margin-bottom: 10px;
 }
 
-.expand {
+.startover {
+  background: #555;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
   cursor: pointer;
-  color: blue;
-  font-size: 14px;
 }
 
-.hidden {
-  display: none;
+.hidden { display:none; }
+
+.expand {
+  color: #ccc;
+  font-size: 13px;
+  margin-top: 5px;
+  cursor: pointer;
 }
 </style>
 </head>
 
 <body>
 
-<h2>Verizon Plan Advisor</h2>
+<div class="topbar">
+  <span class="startover" onclick="restart()">Start Over</span>
+</div>
+
+<h2>Plan Advisor</h2>
 
 <div id="step1" class="card">
   <h3>Customer Type</h3>
   <button onclick="existing()">Existing</button>
-  <button onclick="nextStep('step2')">New</button>
+  <button onclick="next('step2')">New</button>
 </div>
 
 <div id="step2" class="card hidden">
   <h3>How many phones?</h3>
-  <input id="phoneCount" type="number" value="1">
-  <button onclick="generateNames()">Next</button>
+  <div class="grid">
+    <button onclick="setPhones(1)">1</button>
+    <button onclick="setPhones(2)">2</button>
+    <button onclick="setPhones(3)">3</button>
+    <button onclick="setPhones(4)">4</button>
+  </div>
+  <br>
+  <input id="customPhones" placeholder="More than 4..." type="number">
+  <button onclick="useCustom()">Continue</button>
 </div>
 
 <div id="step3" class="card hidden"></div>
-
+<div id="step4" class="card hidden"></div>
+<div id="step5" class="card hidden"></div>
 <div id="results" class="card hidden"></div>
 
 <script>
+
 let lines = [];
 
-function existing(){
-  alert("Use OMNI to determine best plan before quoting.");
+function restart(){
+  location.reload();
 }
 
-function nextStep(id){
-  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+function existing(){
+  alert("Use OMNI to determine plan fit.");
+}
+
+function next(id){
+  document.querySelectorAll('.card').forEach(el => el.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 }
 
-function generateNames(){
-  let count = document.getElementById("phoneCount").value;
-  let html = "<h3>Name each line</h3>";
-
-  lines = [];
-
-  for(let i=0;i<count;i++){
-    html += `
-      <input placeholder="Line ${i+1} name" onchange="setName(${i}, this.value)">
-      <select onchange="setHotspot(${i}, this.value)">
-        <option value="0">No Hotspot</option>
-        <option value="50">50GB</option>
-        <option value="100">100GB</option>
-        <option value="200">200GB+</option>
-      </select>
-      <select onchange="setTravel(${i}, this.value)">
-        <option value="no">No Travel</option>
-        <option value="yes">Needs Travel</option>
-      </select>
-      <hr>
-    `;
-    lines.push({});
-  }
-
-  html += `<button onclick="calculate()">Get Plans</button>`;
-
-  document.getElementById("step3").innerHTML = html;
-  nextStep("step3");
+function setPhones(num){
+  buildNames(num);
 }
 
-function setName(i,val){ lines[i].name = val }
-function setHotspot(i,val){ lines[i].hotspot = parseInt(val) }
-function setTravel(i,val){ lines[i].travel = val }
+function useCustom(){
+  let num = document.getElementById("customPhones").value;
+  if(num > 0) buildNames(num);
+}
 
-function planCalc(line, type){
+function buildNames(count){
+  lines = [];
+  let html = "<h3>Name Each Line</h3>";
+
+  for(let i=0;i<count;i++){
+    html += `<input placeholder="Line ${i+1} name" onchange="lines[${i}]={name:this.value}">`;
+  }
+
+  html += `<button onclick="buildHotspot()">Continue</button>`;
+  document.getElementById("step3").innerHTML = html;
+  next("step3");
+}
+
+function buildHotspot(){
+  let html = "<h3>Hotspot Usage</h3>";
+
+  lines.forEach((l,i)=>{
+    html += `<div class="card">${l.name}<div class="grid">
+      <button onclick="setHS(${i},0)">None</button>
+      <button onclick="setHS(${i},10)"><10GB</button>
+      <button onclick="setHS(${i},20)"><20GB</button>
+      <button onclick="setHS(${i},100)"><100GB</button>
+      <button onclick="setHS(${i},200)"><200GB</button>
+      <button onclick="setHS(${i},300)">200GB+</button>
+    </div></div>`;
+  });
+
+  html += `<button onclick="buildTravel()">Continue</button>`;
+  document.getElementById("step4").innerHTML = html;
+  next("step4");
+}
+
+function setHS(i,val){
+  lines[i].hotspot = val;
+}
+
+function buildTravel(){
+  let html = `<h3>International Travel</h3>
+  <small>Mexico & Canada are included on all plans.</small>`;
+
+  lines.forEach((l,i)=>{
+    html += `<div class="card">${l.name}<div class="grid">
+      <button onclick="setTravel(${i},0)">Not Needed</button>
+      <button onclick="setTravel(${i},1)">Few Years</button>
+      <button onclick="setTravel(${i},2)">Yearly+</button>
+    </div></div>`;
+  });
+
+  html += `<button onclick="calculate()">Get Results</button>`;
+  document.getElementById("step5").innerHTML = html;
+  next("step5");
+}
+
+function setTravel(i,val){
+  lines[i].travel = val;
+}
+
+function calcLine(line,type){
   let base = 65;
+  if(type==="plus") base+=15;
+  if(type==="ultimate") base+=30;
 
-  if(type === "plus") base += 15;
-  if(type === "ultimate") base += 30;
+  let hs = line.hotspot <=20 ? 0 :
+           line.hotspot<=100 ? 10 : 20;
 
-  let hsCost = line.hotspot <= 50 ? 0 :
-               line.hotspot <= 100 ? 10 : 20;
+  let travel = 0;
+  if(line.travel>0 && type!=="ultimate") travel = 10;
 
-  let travelCost = line.travel === "yes" && type !== "ultimate" ? 10 : 0;
-
-  return {
-    cost: base + hsCost + travelCost,
-    details: {
-      base, hsCost, travelCost
-    }
-  };
+  return {cost: base+hs+travel, base, hs, travel};
 }
 
 function calculate(){
-  let cheapestTotal = 0;
-  let bestTotal = 0;
+  let cheapestTotal=0;
+  let bestTotal=0;
 
-  let output = `<h3>Results</h3>`;
+  let html="<h3>Results</h3>";
 
-  lines.forEach((line, i) => {
-    let welcome = planCalc(line, "welcome");
-    let plus = planCalc(line, "plus");
-    let ultimate = planCalc(line, "ultimate");
+  lines.forEach((l,i)=>{
 
-    let cheapest = [welcome, plus, ultimate].reduce((a,b)=>a.cost < b.cost ? a : b);
-    let best = plus; // simple placeholder logic
+    let w = calcLine(l,"welcome");
+    let p = calcLine(l,"plus");
+    let u = calcLine(l,"ultimate");
 
-    cheapestTotal += cheapest.cost;
-    bestTotal += best.cost;
+    let cheapest = [w,p,u].reduce((a,b)=>a.cost<b.cost?a:b);
 
-    output += `
+    let best = (l.travel===2 || l.hotspot>100) ? u :
+               (l.hotspot>20) ? p : w;
+
+    cheapestTotal+=cheapest.cost;
+    bestTotal+=best.cost;
+
+    html+=`
       <div class="card">
-        <b>${line.name || "Line "+(i+1)}</b><br>
+        <b>${l.name}</b><br>
 
         Cheapest: $${cheapest.cost}
         <div class="expand" onclick="toggle('c${i}')">Details</div>
         <div id="c${i}" class="hidden">
-          Base: $${cheapest.details.base}<br>
-          Hotspot: $${cheapest.details.hsCost}<br>
-          Travel: $${cheapest.details.travelCost}
+          Base: $${cheapest.base}<br>
+          Hotspot: $${cheapest.hs}<br>
+          Travel: $${cheapest.travel}
         </div>
 
         <br>
@@ -172,36 +236,29 @@ function calculate(){
         Best Fit: $${best.cost}
         <div class="expand" onclick="toggle('b${i}')">Details</div>
         <div id="b${i}" class="hidden">
-          Base: $${best.details.base}<br>
-          Hotspot: $${best.details.hsCost}<br>
-          Travel: $${best.details.travelCost}
+          Base: $${best.base}<br>
+          Hotspot: $${best.hs}<br>
+          Travel: $${best.travel}
         </div>
       </div>
     `;
   });
 
-  output += `
+  html+=`
     <h3>Totals</h3>
     Cheapest: $${cheapestTotal}<br>
     Best Fit: $${bestTotal}
-
-    <br><br>
-
-    <button onclick="sendEmail()">Send Quote (Coming Soon)</button>
   `;
 
-  document.getElementById("results").innerHTML = output;
-  nextStep("results");
+  document.getElementById("results").innerHTML=html;
+  next("results");
 }
 
 function toggle(id){
-  let el = document.getElementById(id);
+  let el=document.getElementById(id);
   el.classList.toggle("hidden");
 }
 
-function sendEmail(){
-  alert("Email integration will be added later.");
-}
 </script>
 
 </body>
