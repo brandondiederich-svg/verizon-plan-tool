@@ -105,7 +105,9 @@ button {
 <script>
 
 let lines = [];
-
+let tablets = 0;
+let watches = 0;
+  
 function restart(){
   location.reload();
 }
@@ -120,9 +122,38 @@ function next(id){
 }
 
 function setPhones(num){
-  buildNames(num);
+  lines = new Array(num);
+  buildDevices();;
 }
 
+  function buildDevices(){
+  let html = `
+    <h3>Connected Devices</h3>
+
+    Tablets:
+    <div class="grid">
+      <button onclick="setTablets(0)">0</button>
+      <button onclick="setTablets(1)">1</button>
+      <button onclick="setTablets(2)">2</button>
+    </div>
+
+    Watches:
+    <div class="grid">
+      <button onclick="setWatches(0)">0</button>
+      <button onclick="setWatches(1)">1</button>
+      <button onclick="setWatches(2)">2</button>
+    </div>
+
+    <button onclick="buildNames(lines.length)">Continue</button>
+  `;
+
+  document.getElementById("step3").innerHTML = html;
+  next("step3");
+}
+
+function setTablets(n){ tablets=n; }
+function setWatches(n){ watches=n; }
+  
 function useCustom(){
   let num = document.getElementById("customPhones").value;
   if(num > 0) buildNames(num);
@@ -185,7 +216,19 @@ function setTravel(i,val){
   lines[i].travel = val;
 }
 
-function calcLine(line,type){
+function calcLine(line, type){
+
+  if(type === "simplicity"){
+    return {
+      cost: 30,
+      base: 30,
+      hs: 0,
+      travel: 0,
+      plan: "Simplicity",
+      notes: "Includes 10GB hotspot, UWB, autopay + switching discount applied"
+    };
+  }
+
   let base = 65;
   if(type==="plus") base+=15;
   if(type==="ultimate") base+=30;
@@ -196,7 +239,13 @@ function calcLine(line,type){
   let travel = 0;
   if(line.travel>0 && type!=="ultimate") travel = 10;
 
-  return {cost: base+hs+travel, base, hs, travel};
+  return {
+    cost: base+hs+travel,
+    base,
+    hs,
+    travel,
+    plan: type
+  };
 }
 
 function calculate(){
@@ -207,18 +256,49 @@ function calculate(){
 
   lines.forEach((l,i)=>{
 
+    let s = calcLine(l,"simplicity");
     let w = calcLine(l,"welcome");
     let p = calcLine(l,"plus");
     let u = calcLine(l,"ultimate");
-
-    let cheapest = [w,p,u].reduce((a,b)=>a.cost<b.cost?a:b);
-
-    let best = (l.travel===2 || l.hotspot>100) ? u :
-               (l.hotspot>20) ? p : w;
+    
+    // Cheapest = true lowest
+    let cheapest = [s,w,p,u].reduce((a,b)=>a.cost<b.cost?a:b);
+    
+    // Best Fit logic (you can refine later)
+    let best =
+      (l.travel===2 || l.hotspot>100) ? u :
+      (l.hotspot>20) ? p :
+      (l.hotspot<=10 && l.travel===0) ? s :
+      w;
+    ``
 
     cheapestTotal+=cheapest.cost;
     bestTotal+=best.cost;
 
+    let tabletCost = tablets * 10;
+    let watchCost = watches * 15;
+    
+    // Simplicity discount (50% off)
+    let simplicityDeviceDiscount = 0;
+    
+    // check if ANY line is simplicity (simple version for now)
+    let hasSimplicity = lines.some(l => true); // temp (we'll refine later)
+    
+    if(hasSimplicity){
+      tabletCost *= 0.5;
+      watchCost *= 0.5;
+    }
+    
+    html += `
+      <h3>Connected Devices</h3>
+      Tablets: $${tabletCost}<br>
+      Watches: $${watchCost}<br>
+    `;
+    
+    cheapestTotal += tabletCost + watchCost;
+    bestTotal += tabletCost + watchCost;
+    ``
+    
     html+=`
       <div class="card">
         <b>${l.name}</b><br>
