@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>VZ Plan Advisor</title>
@@ -117,7 +116,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .color-label{font-size:12px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:8px}
 .color-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .color-swatch{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;flex-shrink:0}
+.promo-card{background:#fff;border:2px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;transition:border-color .2s}
+.promo-card.promo-on{border-color:var(--red)}
+.promo-card.promo-qualified{border-color:#16a34a;background:#f0fdf4}
+.promo-name{font-size:15px;font-weight:800;margin-bottom:3px}
+.promo-tagline{font-size:13px;color:var(--gray);margin-bottom:6px}
+.promo-discount{font-size:20px;font-weight:900;color:var(--red);line-height:1.1}
+.promo-note{font-size:11px;color:var(--gray);margin-top:2px}
+.promo-expires{font-size:11px;color:var(--gray);margin-top:5px;font-style:italic}
+.promo-toggle{background:var(--lgray);color:var(--dark);border:2px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.promo-toggle.on{background:var(--red);color:#fff;border-color:var(--red)}
 .color-swatch.sel{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--red)}
+.phone-steps{display:flex;align-items:center;gap:6px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.phone-step{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--gray);flex:1}
+.phone-step.active{color:var(--red)}
+.phone-step.done{color:#16a34a}
+.phone-step-num{width:22px;height:22px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0}
+.phone-step.done .phone-step-num{background:#16a34a;border-color:#16a34a;color:#fff}
+.phone-step.active .phone-step-num{background:var(--red);border-color:var(--red);color:#fff}
+.phone-step-div{width:16px;height:2px;background:var(--border);flex-shrink:0}
+.phone-step.done~.phone-step-div,.phone-step.active~.phone-step-div{background:var(--red)}
+@keyframes color-pulse{0%,100%{border-color:var(--red);background:#fff5f5}50%{border-color:rgba(238,1,30,.4);background:#fff}}
+.color-highlight-box{border:2px solid var(--red);border-radius:10px;padding:10px 10px 4px;margin-bottom:4px;animation:color-pulse 1.8s ease infinite}
+.color-label-active{color:var(--red)!important;font-size:13px!important}
 .line-tier-card{background:#fff;border:2px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
 .line-tier-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .tier-btns{display:flex;gap:6px;flex-wrap:wrap;flex:1}
@@ -171,8 +192,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <div class="hdr">
   <span class="hdr-logo">V.</span>
-  <span class="hdr-title" id="hdr-title">Plan Advisor</span>
-  <button class="hdr-gear" onclick="showAdminLogin()">&#9881;</button>
+  <span class="hdr-title" id="hdr-title">Admin Panel</span>
+  <button class="hdr-gear" onclick="showAdminLogin()">⚙</button>
 </div>
 
 <!-- WELCOME -->
@@ -183,7 +204,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="ws">Build a quote in under 2 minutes</div>
   </div>
   <button class="btn btn-red" onclick="go('s-lines')">Start New Quote</button>
-  <button class="btn btn-ghost mt2" onclick="showAdminLogin()">Admin / Settings &#9881;</button>
+  <button class="btn btn-ghost mt2" onclick="showAdminLogin()">Admin / Settings ⚙</button>
 </div>
 
 <!-- STEP 1: LINE COUNT -->
@@ -198,10 +219,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <button class="btn btn-ghost" onclick="setLines(5)">5</button>
     <button class="btn btn-ghost" onclick="setLines(6)">6+</button>
   </div>
-  <div class="note-box mt4">&#128161; More lines = lower per-line cost on myPlan.</div>
+  <div class="note-box mt4">💡 More lines = lower per-line cost on myPlan.</div>
   <div class="bnav">
     <div class="bnav-row">
-      <button class="btn btn-ghost" onclick="go('s-welcome')">&#8592; Back</button>
+      <button class="btn btn-ghost" onclick="go('s-welcome')">← Back</button>
     </div>
   </div>
 </div>
@@ -213,8 +234,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <input class="inp" type="number" id="custom-lines" min="6" max="12" value="6">
   <div class="bnav">
     <div class="bnav-row">
-      <button class="btn btn-ghost" onclick="go('s-lines')">&#8592; Back</button>
-      <button class="btn btn-red" onclick="setLinesCustom()">Continue &#8594;</button>
+      <button class="btn btn-ghost" onclick="go('s-lines')">← Back</button>
+      <button class="btn btn-red" onclick="setLinesCustom()">Continue →</button>
     </div>
   </div>
 </div>
@@ -222,12 +243,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <!-- STEP 2: LINE NAMES -->
 <div id="s-names" class="screen">
   <div class="sh">Name Each Line</div>
-  <div class="ss">Optional &#8212; leave blank for Line 1, Line 2, etc.</div>
-  <div id="name-fields"></div>
+  <div class="ss">Optional — leave blank for Line 1, Line 2, etc.</div>
+  <div id="name-fields">
+    <div class="card" style="padding:14px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div class="lbadge">1</div>
+        <div style="font-weight:700">Line 1</div>
+      </div>
+      <input class="inp" id="name-0" placeholder="Line 1" style="margin-bottom:0" value="">
+    </div></div>
   <div class="bnav">
     <div class="bnav-row">
-      <button class="btn btn-ghost" onclick="go('s-lines')">&#8592; Back</button>
-      <button class="btn btn-red" onclick="saveNames()">Next &#8594;</button>
+      <button class="btn btn-ghost" onclick="go('s-lines')">← Back</button>
+      <button class="btn btn-red" onclick="saveNames()">Next →</button>
     </div>
     <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
@@ -235,11 +263,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <!-- STEP 3: PER-LINE QUESTIONS -->
 <div id="s-lineq" class="screen">
-  <div id="lineq-content"></div>
+  <div id="lineq-content">
+    <div class="lq-prog">
+      <div class="lbadge">1</div>
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:15px">Line 1</div>
+        <div class="lq-steps"><div class="lq-step done"></div><div class="lq-step done"></div><div class="lq-step on"></div></div>
+      </div>
+      <div style="font-size:11px;color:var(--gray)">Line 1 of 1</div>
+    </div>
+    <div style="display:flex;gap:3px;margin-bottom:18px;flex-wrap:wrap"><span class="dot on" style="margin-right:3px"></span></div>
+    <div class="sh">Getting a Phone?</div><div class="ss">Line 1</div><button class="choice sel" onclick="pickDeal('byod',this)"><span class="cl">Bring Your Own Device (BYOD)</span><span class="cs">Transferring number, keeping current phone</span></button><button class="choice " onclick="pickDeal('retail',this)"><span class="cl">Full Retail Price</span><span class="cs">Buying new at full price or financing — no trade-in. Note: current-gen iPhones require activation.</span></button><button class="choice " onclick="pickDeal('promo',this)"><span class="cl">Device Promotion / Trade-In</span><span class="cs">Wants a deal on a new device — requires myPlan</span></button>
+  </div>
   <div class="bnav">
     <div class="bnav-row">
-      <button class="btn btn-ghost" id="lineq-back-btn" onclick="lineqBack()">Back</button>
-      <button class="btn btn-red" id="lineq-next-btn" onclick="lineqNext()">Next &#8594;</button>
+      <button class="btn btn-ghost" id="lineq-back-btn" onclick="lineqBack()">← Back</button>
+      <button class="btn btn-red" id="lineq-next-btn" onclick="lineqNext()">Devices →</button>
     </div>
     <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
@@ -250,26 +289,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <div class="sh">Connected Devices</div>
   <div class="ss">Non-phone devices on this account</div>
   <div class="ctr">
-    <div><div class="ctr-lbl">&#128241; Tablets</div><div class="ctr-sub">$20&#8211;$50/mo + plan discounts</div></div>
+    <div><div class="ctr-lbl">📱 Tablets</div><div class="ctr-sub">$20–$50/mo + plan discounts</div></div>
     <div class="ctr-ctrl">
-      <button class="ctr-btn" onclick="adjDevice('tablets',-1)">&#8722;</button>
+      <button class="ctr-btn" onclick="adjDevice('tablets',-1)">−</button>
       <span class="ctr-val" id="cnt-tablets">0</span>
       <button class="ctr-btn" onclick="adjDevice('tablets',1)">+</button>
     </div>
   </div>
   <div class="ctr">
-    <div><div class="ctr-lbl">&#8987; Smartwatches</div><div class="ctr-sub">$15&#8211;$25/mo + plan discounts</div></div>
+    <div><div class="ctr-lbl">⌛ Smartwatches</div><div class="ctr-sub">$15–$25/mo + plan discounts</div></div>
     <div class="ctr-ctrl">
-      <button class="ctr-btn" onclick="adjDevice('watches',-1)">&#8722;</button>
+      <button class="ctr-btn" onclick="adjDevice('watches',-1)">−</button>
       <span class="ctr-val" id="cnt-watches">0</span>
       <button class="ctr-btn" onclick="adjDevice('watches',1)">+</button>
     </div>
   </div>
-  <div class="note-box">&#128161; Simplicity gives 50% off ALL connected devices (up to $25/each). myPlan Plus gives 50% off 1 device per line; Ultimate gives 50% off 2 per line.</div>
+  <div class="note-box">💡 Simplicity gives 50% off ALL connected devices (up to $25/each). myPlan Plus gives 50% off 1 device per line; Ultimate gives 50% off 2 per line.</div>
   <div class="bnav">
     <div class="bnav-row">
-      <button class="btn btn-ghost" onclick="devBack()">&#8592; Back</button>
-      <button class="btn btn-red" onclick="calcAndShow()">See Results &#8594;</button>
+      <button class="btn btn-ghost" onclick="devBack()">← Back</button>
+      <button class="btn btn-red" onclick="calcAndShow()">See Results →</button>
     </div>
     <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
@@ -278,13 +317,67 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <!-- STEP 5: RESULTS -->
 <div id="s-results" class="screen">
   <div class="sh">Quote Results</div>
-  <div class="ss" id="res-subtitle"></div>
-  <div class="res-grid" id="res-grid"></div>
-  <div id="res-all-plans"></div>
-  <div id="res-promos"></div>
+  <div class="ss" id="res-subtitle">1 line · tap a card to build the full quote</div>
+  <div class="res-grid" id="res-grid">
+    <div class="res-card rec">
+      <span class="res-badge badge-cheap">✓ Lowest Cost</span> <span class="res-badge badge-rec">★ Recommended</span>
+      <div class="res-plan">Simplicity Plan</div>
+      <div class="res-price">$30</div>
+      <div class="res-mo">/month est.</div>
+      
+      
+      <div style="font-size:11px;color:var(--gray);margin-top:8px;cursor:pointer;text-decoration:underline;text-underline-offset:2px" onclick="this.nextElementSibling.classList.toggle('hidden');this.textContent=this.nextElementSibling.classList.contains('hidden')?'▼ Show breakdown':'▲ Hide breakdown'">▲ Hide breakdown</div>
+      <div><div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+      <div style="margin-bottom:6px;font-size:12px">
+        <div style="display:flex;justify-content:space-between"><span style="font-weight:700">Line 1</span><span>$30/mo</span></div>
+        <div style="color:var(--gray)">Simplicity</div>
+        
+        
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)">
+        <span>Estimated Total</span><span>$30/mo</span>
+      </div>
+    </div></div>
+      <div style="margin-top:8px;padding:8px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--gray)">Due today</span><span style="font-weight:700">Taxes &amp; Fees</span></div>
+      <button class="btn btn-red" style="margin-top:12px;height:44px;font-size:14px" onclick="openCustomize('simplicity')">Customize →</button>
+    </div>
+    <div class="res-card ">
+      <span class="res-badge" style="background:var(--lgray);color:var(--gray)">Option</span>
+      <div class="res-plan">myPlan (mix &amp; match)</div>
+      <div class="res-price">$65</div>
+      <div class="res-mo">/month est.</div>
+      <div style="font-size:11px;color:var(--gray);margin-top:6px">Per-line tiers can be customized</div>
+      
+      <div style="font-size:11px;color:var(--gray);margin-top:8px;cursor:pointer;text-decoration:underline;text-underline-offset:2px" onclick="this.nextElementSibling.classList.toggle('hidden');this.textContent=this.nextElementSibling.classList.contains('hidden')?'▼ Show breakdown':'▲ Hide breakdown'">▲ Hide breakdown</div>
+      <div><div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+      <div style="margin-bottom:6px;font-size:12px">
+        <div style="display:flex;justify-content:space-between"><span style="font-weight:700">Line 1</span><span>$65/mo</span></div>
+        <div style="color:var(--gray)">Welcome</div>
+        
+        
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)">
+        <span>Estimated Total</span><span>$65/mo</span>
+      </div>
+    </div></div>
+      <div style="margin-top:8px;padding:8px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--gray)">Due today</span><span style="font-weight:700">Taxes &amp; Fees</span></div>
+      <button class="btn btn-red" style="margin-top:12px;height:44px;font-size:14px" onclick="openCustomize('myplan')">Customize →</button>
+    </div></div>
+  <div id="res-all-plans">
+    <div class="card">
+      <div class="card-title" style="font-size:15px">Why the Difference?</div>
+      <div style="font-size:13px;color:var(--gray);margin-top:6px">Simplicity costs $35/mo less. Simplicity is the simpler, all-inclusive plan — no tier decisions, 10 GB hotspot built in, and flexible financing terms. myPlan is worth considering if the customer may want a device promo in the future.</div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+        <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--gray);margin-bottom:6px">myPlan Recommended Tiers</div>
+        <div style="font-size:13px">Line 1: Welcome ($65/mo)</div>
+      </div>
+    </div></div>
+  <div id="res-promos"><div class="card"><div class="card-title" style="font-size:14px">📢 Active Promos</div><div style="font-size:13px;color:var(--gray);margin-top:6px;white-space:pre-wrap">Check InfoManager Promotions for current device deals.
+Ask about Verizon Home Internet discount ($15/mo off when bundled).
+Simplicity: No activation fees for new customers.</div></div></div>
   <div class="bnav">
     <div class="bnav-row">
-      <button class="btn btn-ghost" onclick="go('s-devices')">&#8592; Back</button>
+      <button class="btn btn-ghost" onclick="go('s-devices')">← Back</button>
     </div>
     <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
@@ -292,18 +385,189 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <!-- STEP 6: CUSTOMIZE -->
 <div id="s-customize" class="screen">
-  <div id="cust-content"></div>
+  <div id="cust-content"><div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div><div style="font-size:12px;font-weight:700;color:var(--gray);text-transform:uppercase">Plan</div>
+        <div style="font-size:22px;font-weight:900">Simplicity</div></div>
+        <span class="pill pill-y">$30/line/mo</span>
+      </div>
+      <div class="info-box" style="margin-bottom:0">All lines on account must be on Simplicity. Price assumes Auto Pay + Switch &amp; Save. Without switching: $45/line.</div>
+    </div><div class="line-tier-card">
+        <div class="line-tier-hd">
+          <div class="lbadge">1</div>
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:15px">Line 1</div>
+            
+            <div style="font-size:12px;color:var(--gray)">BYOD</div>
+          </div>
+          <div style="text-align:right"><div class="tier-price">$101.99</div><div style="font-size:11px;color:var(--gray)">$30 plan + $71.99 add-ons</div></div>
+        </div>
+        
+
+        
+
+        
+        <div class="perk-section">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div class="perk-section-title" style="margin-bottom:0">Add-Ons &amp; Perks</div>
+      <button style="font-size:12px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer" onclick="togglePerkExpand(0)" id="perk-expand-btn-0">Hide ▲</button>
+    </div>
+    <div id="perk-body-0">
+      <div style="background:var(--lgray);border-radius:8px;padding:6px 10px;margin-bottom:8px;font-size:11px;display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:var(--red)">📦 Essentials</span><span style="color:var(--gray)">saving $10/mo</span></div><div style="background:var(--lgray);border-radius:8px;padding:6px 10px;margin-bottom:8px;font-size:11px;display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:var(--red)">📦 Fans</span><span style="color:var(--gray)">saving $8.99/mo</span></div><div style="background:var(--lgray);border-radius:8px;padding:6px 10px;margin-bottom:8px;font-size:11px;display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:var(--red)">📦 Apple Specialists</span><span style="color:var(--gray)">saving $1.99/mo</span></div><div class="perk-section-title" style="margin-top:10px">Streaming</div><div class="perk-row">
+          <div>
+            <div class="perk-name">Disney Bundle</div>
+            <div class="perk-sub">Disney+, Hulu &amp; ESPN+</div>
+            <div class="perk-sub" style="color:var(--red);font-weight:600">Fans</div>
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$3/mo</span>
+            <button class="perk-toggle on" onclick="togglePerk(0,'disney-bundle')"></button>
+          </div>
+        </div><div class="perk-row">
+          <div>
+            <div class="perk-name">Netflix &amp; Max</div>
+            <div class="perk-sub">Netflix Standard + Max (with Ads)</div>
+            
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$10/mo</span>
+            <button class="perk-toggle on" onclick="togglePerk(0,'netflix-max')"></button>
+          </div>
+        </div><div class="perk-row">
+          <div>
+            <div class="perk-name">Premium Video (4K)</div>
+            <div class="perk-sub">4K streaming on compatible devices</div>
+            <div class="perk-sub" style="color:var(--red);font-weight:600">Fans</div>
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$1.01/mo</span>
+            <button class="perk-toggle on" onclick="togglePerk(0,'4k-video')"></button>
+          </div>
+        </div><div class="perk-section-title" style="margin-top:10px">Music</div><div class="perk-row">
+          <div>
+            <div class="perk-name">Apple Music Family</div>
+            <div class="perk-sub">Up to 6 people</div>
+            <div class="perk-sub" style="color:var(--red);font-weight:600">Apple Specialists</div>
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$16.99/mo</span>
+            <button class="perk-toggle on" onclick="togglePerk(0,'apple-music-f')"></button>
+          </div>
+        </div><div class="perk-row">
+          <div>
+            <div class="perk-name">YouTube Premium</div>
+            <div class="perk-sub">Ad-free YouTube + YouTube Music</div>
+            <div class="perk-sub" style="color:var(--red);font-weight:600">Fans</div>
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$6.99/mo</span>
+            <button class="perk-toggle on" onclick="togglePerk(0,'youtube-prem')"></button>
+          </div>
+        </div><div class="perk-section-title" style="margin-top:10px">Verizon</div><div class="perk-row">
+          <div>
+            <div class="perk-name">Verizon Family Plus</div>
+            <div class="perk-sub">Call Filter Plus + Smart Family</div>
+            
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$3.01/mo</span>
+            <button class="perk-toggle " onclick="togglePerk(0,'vz-fam-plus')"></button>
+          </div>
+        </div><div class="perk-row">
+          <div>
+            <div class="perk-name">Verizon Cloud Unlimited</div>
+            <div class="perk-sub">Unlimited photo &amp; video backup</div>
+            <div class="perk-sub" style="color:var(--red);font-weight:600">Essentials</div>
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$0/mo</span>
+            <button class="perk-toggle on" onclick="togglePerk(0,'vz-cloud-unl')"></button>
+          </div>
+        </div><div class="perk-row">
+          <div>
+            <div class="perk-name">Second Number</div>
+            <div class="perk-sub">Second number on same device</div>
+            
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$10/mo</span>
+            <button class="perk-toggle " onclick="togglePerk(0,'second-num')"></button>
+          </div>
+        </div><div class="perk-section-title" style="margin-top:10px">Hotspot</div><div class="perk-row">
+          <div>
+            <div class="perk-name">100 GB Hotspot</div>
+            <div class="perk-sub">Adds 100 GB hotspot (Welcome)</div>
+            
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$10/mo</span>
+            <button class="perk-toggle " onclick="togglePerk(0,'hs-100gb')"></button>
+          </div>
+        </div><div class="perk-row">
+          <div>
+            <div class="perk-name">Unlimited Hotspot</div>
+            <div class="perk-sub">Unlimited mobile hotspot data</div>
+            <div class="perk-sub" style="color:var(--red);font-weight:600">Essentials</div>
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$10/mo</span>
+            <button class="perk-toggle on" onclick="togglePerk(0,'hs-unlimited')"></button>
+          </div>
+        </div><div class="perk-section-title" style="margin-top:10px">Productivity</div><div class="perk-row">
+          <div>
+            <div class="perk-name">Google AI Pro</div>
+            <div class="perk-sub">Gemini Advanced + 2 TB Google One</div>
+            
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$10/mo</span>
+            <button class="perk-toggle " onclick="togglePerk(0,'google-ai')"></button>
+          </div>
+        </div><div class="perk-section-title" style="margin-top:10px">Travel</div><div class="perk-row">
+          <div>
+            <div class="perk-name">Global Calling Plus</div>
+            <div class="perk-sub">300 min/mo to 1 intl destination</div>
+            
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$15/mo</span>
+            <button class="perk-toggle " onclick="togglePerk(0,'global-call')"></button>
+          </div>
+        </div><div class="perk-row">
+          <div>
+            <div class="perk-name">15 GB Intl Data</div>
+            <div class="perk-sub">15 GB in 210+ countries</div>
+            
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$10/mo</span>
+            <button class="perk-toggle " onclick="togglePerk(0,'intl-15gb')"></button>
+          </div>
+        </div><div class="perk-row">
+          <div>
+            <div class="perk-name">3 TravelPass Days</div>
+            <div class="perk-sub">3 days/mo in 210+ countries</div>
+            
+          </div>
+          <div class="perk-right">
+            <span class="perk-price">+$12/mo</span>
+            <button class="perk-toggle " onclick="togglePerk(0,'travelpass-3')"></button>
+          </div>
+        </div>
+    </div>
+  </div>
+      </div></div>
   <div class="live-total" id="live-total-bar">
     <div>
       <div class="lt-label">Est. Monthly Total</div>
       <div style="font-size:10px;color:var(--gray)">Before taxes &amp; fees</div>
     </div>
-    <div><span class="lt-amount" id="live-total-amt">$0</span><span class="lt-mo">/mo</span></div>
+    <div><span class="lt-amount" id="live-total-amt">$101.99</span><span class="lt-mo">/mo</span></div>
   </div>
   <div class="bnav">
     <div class="bnav-row">
-      <button class="btn btn-ghost" onclick="goToResults()">&#8592; Results</button>
-      <button class="btn btn-yellow" onclick="goEmail()">&#128231; Email Quote</button>
+      <button class="btn btn-ghost" onclick="goToResults()">← Results</button>
+      <button class="btn btn-yellow" onclick="goEmail()">📧 Email Quote</button>
     </div>
     <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
@@ -322,16 +586,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <input class="inp" type="text" id="email-customer" placeholder="Customer name">
   </div>
   <div class="card">
-    <div class="card-title" style="font-size:15px">&#128203; Customer Copy</div>
+    <div class="card-title" style="font-size:15px">📋 Customer Copy</div>
     <div class="card-sub">Copy &amp; paste to send from your @bestbuy.com email or text</div>
     <div class="email-pre" id="customer-copy"></div>
     <button class="btn btn-ghost btn-sm" onclick="copyCustomerText()">Copy to Clipboard</button>
   </div>
-  <div id="emailjs-warning" class="alert hidden">&#9888; Email sending requires EmailJS setup. Go to Admin &#8594; Email tab.</div>
+  <div id="emailjs-warning" class="alert hidden">⚠ Email sending requires EmailJS setup. Go to Admin → Email tab.</div>
   <div class="bnav">
     <div class="bnav-row">
-      <button class="btn btn-ghost" onclick="go('s-customize')">&#8592; Back</button>
-      <button class="btn btn-red" onclick="sendEmail()">Send Email &#128228;</button>
+      <button class="btn btn-ghost" onclick="go('s-customize')">← Back</button>
+      <button class="btn btn-red" onclick="sendEmail()">Send Email 📤</button>
     </div>
     <button class="bnav-start" onclick="startOver()">Start over</button>
   </div>
@@ -339,11 +603,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <!-- ADMIN LOGIN -->
 <div id="s-admin-login" class="screen">
-  <button class="back" onclick="go('s-welcome')">&#8592; Back</button>
+  <button class="back" onclick="go('s-welcome')">← Back</button>
   <div class="sh">Admin Access</div>
   <div class="card">
     <label class="flbl">Password</label>
-    <input class="inp" type="password" id="admin-pw" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" onkeydown="if(event.key==='Enter')checkAdmin()">
+    <input class="inp" type="password" id="admin-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdmin()">
     <button class="btn btn-red mt2" onclick="checkAdmin()">Enter Admin</button>
     <div id="admin-err" class="hidden" style="color:var(--red);font-size:13px;margin-top:8px;text-align:center">Incorrect password</div>
   </div>
@@ -352,23 +616,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <!-- ADMIN PANEL -->
 <div id="s-admin" class="screen">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-    <div class="sh" style="margin-bottom:0">&#9881; Admin</div>
+    <div class="sh" style="margin-bottom:0">⚙ Admin</div>
     <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 14px" onclick="go('s-welcome')">Exit</button>
   </div>
   <div class="tabs">
-    <button class="tab on" onclick="adminTab('email',this)">Email</button>
+    <button class="tab" onclick="adminTab('email',this)">Email</button>
     <button class="tab" onclick="adminTab('plans',this)">Plans</button>
     <button class="tab" onclick="adminTab('devices',this)">Devices</button>
-    <button class="tab" onclick="adminTab('perks',this)">Perks</button>
+    <button class="tab on" onclick="adminTab('perks',this)">Perks</button>
     <button class="tab" onclick="adminTab('promos',this)">Promos</button>
     <button class="tab" onclick="adminTab('security',this)">Security</button>
   </div>
 
   <!-- EMAIL -->
-  <div id="adm-email" class="admin-section">
+  <div id="adm-email" class="admin-section hidden">
     <div class="card">
       <div class="card-title">EmailJS Settings</div>
-      <div class="card-sub">Sign up free at emailjs.com &#8594; create a service &amp; template &#8594; paste credentials here.</div>
+      <div class="card-sub">Sign up free at emailjs.com → create a service &amp; template → paste credentials here.</div>
       <label class="flbl">Service ID</label><input class="inp" id="adm-svc" placeholder="service_xxxxxxx">
       <label class="flbl">Template ID</label><input class="inp" id="adm-tpl" placeholder="template_xxxxxxx">
       <label class="flbl">Public Key</label><input class="inp" id="adm-key" placeholder="xxxxxxxxxxxxxxxxxxxx">
@@ -391,7 +655,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       </div>
     </div>
     <div class="card">
-      <div class="card-title">myPlan &#8212; Unlimited Welcome</div>
+      <div class="card-title">myPlan — Unlimited Welcome</div>
       <div class="g2">
         <div><label class="flbl">1 Line</label><input class="inp" id="adm-w1" type="number"></div>
         <div><label class="flbl">2 Lines</label><input class="inp" id="adm-w2" type="number"></div>
@@ -400,7 +664,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       </div>
     </div>
     <div class="card">
-      <div class="card-title">myPlan &#8212; Unlimited Plus</div>
+      <div class="card-title">myPlan — Unlimited Plus</div>
       <div class="g2">
         <div><label class="flbl">1 Line</label><input class="inp" id="adm-p1" type="number"></div>
         <div><label class="flbl">2 Lines</label><input class="inp" id="adm-p2" type="number"></div>
@@ -409,7 +673,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       </div>
     </div>
     <div class="card">
-      <div class="card-title">myPlan &#8212; Unlimited Ultimate</div>
+      <div class="card-title">myPlan — Unlimited Ultimate</div>
       <div class="g2">
         <div><label class="flbl">1 Line</label><input class="inp" id="adm-u1" type="number"></div>
         <div><label class="flbl">2 Lines</label><input class="inp" id="adm-u2" type="number"></div>
@@ -464,7 +728,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
           <input type="checkbox" id="dev-byod" style="width:18px;height:18px"> Unlocked Available
         </label>
         <label style="font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;cursor:pointer">
-          <input type="checkbox" id="dev-active" checked style="width:18px;height:18px"> Active
+          <input type="checkbox" id="dev-active" checked="" style="width:18px;height:18px"> Active
         </label>
       </div>
       <input type="hidden" id="dev-edit-idx" value="-1">
@@ -474,28 +738,154 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       </div>
     </div>
     <div class="tabs" style="margin-top:4px">
-      <button class="tab on" onclick="filterDevTab('all',this)">All</button>
+      <button class="tab" onclick="filterDevTab('all',this)">All</button>
       <button class="tab" onclick="filterDevTab('phone',this)">Phones</button>
       <button class="tab" onclick="filterDevTab('tablet',this)">Tablets</button>
       <button class="tab" onclick="filterDevTab('watch',this)">Watches</button>
     </div>
-    <div id="adm-dev-list"></div>
+    <div id="adm-dev-list"><div class="dev-row ">
+      <span class="dev-badge dev-phone">phone</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Apple iPhone 16</div>
+        <div style="font-size:11px;color:var(--gray)">128GB, 256GB, 512GB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(0)">Edit</button>
+      <button onclick="toggleDevActive(0)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(0)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-phone">phone</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Apple iPhone 16 Plus</div>
+        <div style="font-size:11px;color:var(--gray)">256GB, 512GB, 1TB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(1)">Edit</button>
+      <button onclick="toggleDevActive(1)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(1)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-phone">phone</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Apple iPhone 16 Pro</div>
+        <div style="font-size:11px;color:var(--gray)">256GB, 512GB, 1TB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(2)">Edit</button>
+      <button onclick="toggleDevActive(2)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(2)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-phone">phone</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Apple iPhone 16 Pro Max</div>
+        <div style="font-size:11px;color:var(--gray)">256GB, 512GB, 1TB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(3)">Edit</button>
+      <button onclick="toggleDevActive(3)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(3)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-phone">phone</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Samsung Galaxy S25</div>
+        <div style="font-size:11px;color:var(--gray)">128GB, 256GB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(4)">Edit</button>
+      <button onclick="toggleDevActive(4)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(4)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-phone">phone</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Samsung Galaxy S25+</div>
+        <div style="font-size:11px;color:var(--gray)">256GB, 512GB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(5)">Edit</button>
+      <button onclick="toggleDevActive(5)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(5)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-phone">phone</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Samsung Galaxy S25 Ultra</div>
+        <div style="font-size:11px;color:var(--gray)">256GB, 512GB, 1TB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(6)">Edit</button>
+      <button onclick="toggleDevActive(6)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(6)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-phone">phone</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Google Pixel 9</div>
+        <div style="font-size:11px;color:var(--gray)">128GB, 256GB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(7)">Edit</button>
+      <button onclick="toggleDevActive(7)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(7)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-phone">phone</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Google Pixel 9 Pro</div>
+        <div style="font-size:11px;color:var(--gray)">128GB, 256GB, 512GB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(8)">Edit</button>
+      <button onclick="toggleDevActive(8)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(8)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-tablet">tablet</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Apple iPad (10th Gen)</div>
+        <div style="font-size:11px;color:var(--gray)">64GB, 256GB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(9)">Edit</button>
+      <button onclick="toggleDevActive(9)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(9)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-tablet">tablet</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Apple iPad Air (M2)</div>
+        <div style="font-size:11px;color:var(--gray)">128GB, 256GB, 512GB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(10)">Edit</button>
+      <button onclick="toggleDevActive(10)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(10)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-tablet">tablet</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Samsung Galaxy Tab S10 FE</div>
+        <div style="font-size:11px;color:var(--gray)">128GB, 256GB</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(11)">Edit</button>
+      <button onclick="toggleDevActive(11)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(11)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-watch">watch</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Apple Apple Watch Series 10</div>
+        <div style="font-size:11px;color:var(--gray)">GPS 42mm, GPS+Cell 42mm, GPS 46mm, GPS+Cell 46mm</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(12)">Edit</button>
+      <button onclick="toggleDevActive(12)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(12)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div><div class="dev-row ">
+      <span class="dev-badge dev-watch">watch</span>
+      <div class="dev-name">
+        <div style="font-weight:800">Samsung Galaxy Watch 7</div>
+        <div style="font-size:11px;color:var(--gray)">40mm, 44mm</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 12px" onclick="editDevice(13)">Edit</button>
+      <button onclick="toggleDevActive(13)" style="background:none;border:none;font-size:18px;cursor:pointer">✓</button>
+      <button onclick="deleteDevice(13)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+    </div></div>
   </div>
 
   <!-- PERKS -->
-  <div id="adm-perks" class="admin-section hidden">
+  <div id="adm-perks" class="admin-section">
     <!-- Individual Perk Form -->
     <div id="adm-perk-form" class="card hidden">
-      <div class="card-title" id="perk-form-title">Add Perk</div>
+      <div class="card-title" id="perk-form-title">Edit Perk</div>
       <label class="flbl">Name</label><input class="inp" id="pf-name" placeholder="e.g. Disney Bundle">
-      <label class="flbl">Description</label><input class="inp" id="pf-desc" placeholder="e.g. Disney+, Hulu & ESPN+">
+      <label class="flbl">Description</label><input class="inp" id="pf-desc" placeholder="e.g. Disney+, Hulu &amp; ESPN+">
       <label class="flbl">Category</label>
       <select class="inp" id="pf-cat" style="height:50px;appearance:auto">
         <option>Streaming</option><option>Music</option><option>Verizon</option>
         <option>Hotspot</option><option>Productivity</option><option>Travel</option>
       </select>
       <label class="flbl">Price ($/mo)</label><input class="inp" id="pf-price" type="number" step="0.01" placeholder="10.00">
-      <input type="hidden" id="pf-edit-idx" value="-1">
+      <input type="hidden" id="pf-edit-idx" value="2">
       <div class="g2 mt4">
         <button class="btn btn-ghost btn-sm" onclick="cancelPerkForm()">Cancel</button>
         <button class="btn btn-red btn-sm" onclick="savePerk()">Save Perk</button>
@@ -508,13 +898,130 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <button class="btn btn-red btn-xs" style="width:auto;padding:0 16px" onclick="openPerkForm(-1)">+ Add</button>
     </div>
     <div class="card" style="padding:10px 14px">
-      <div id="adm-perks-list"></div>
+      <div id="adm-perks-list">
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Disney Bundle</div>
+            <div style="font-size:11px;color:var(--gray)">Disney+, Hulu &amp; ESPN+ • Streaming</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$10/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(0)">Edit</button>
+          <button onclick="deletePerk(0)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Netflix &amp; Max</div>
+            <div style="font-size:11px;color:var(--gray)">Netflix Standard + Max (with Ads) • Streaming</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$13/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(1)">Edit</button>
+          <button onclick="deletePerk(1)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Premium Video (4K)</div>
+            <div style="font-size:11px;color:var(--gray)">4K streaming on compatible devices • Streaming</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$10/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(2)">Edit</button>
+          <button onclick="deletePerk(2)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Apple Music Family</div>
+            <div style="font-size:11px;color:var(--gray)">Up to 6 people • Music</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$10/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(3)">Edit</button>
+          <button onclick="deletePerk(3)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">YouTube Premium</div>
+            <div style="font-size:11px;color:var(--gray)">Ad-free YouTube + YouTube Music • Music</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$12/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(4)">Edit</button>
+          <button onclick="deletePerk(4)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Verizon Family Plus</div>
+            <div style="font-size:11px;color:var(--gray)">Call Filter Plus + Smart Family • Verizon</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$10/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(5)">Edit</button>
+          <button onclick="deletePerk(5)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Verizon Cloud Unlimited</div>
+            <div style="font-size:11px;color:var(--gray)">Unlimited photo &amp; video backup • Verizon</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$10/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(6)">Edit</button>
+          <button onclick="deletePerk(6)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Second Number</div>
+            <div style="font-size:11px;color:var(--gray)">Second number on same device • Verizon</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$10/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(7)">Edit</button>
+          <button onclick="deletePerk(7)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">100 GB Hotspot</div>
+            <div style="font-size:11px;color:var(--gray)">Adds 100 GB hotspot (Welcome) • Hotspot</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$10/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(8)">Edit</button>
+          <button onclick="deletePerk(8)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Unlimited Hotspot</div>
+            <div style="font-size:11px;color:var(--gray)">Unlimited mobile hotspot data • Hotspot</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$20/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(9)">Edit</button>
+          <button onclick="deletePerk(9)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Google AI Pro</div>
+            <div style="font-size:11px;color:var(--gray)">Gemini Advanced + 2 TB Google One • Productivity</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$10/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(10)">Edit</button>
+          <button onclick="deletePerk(10)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">Global Calling Plus</div>
+            <div style="font-size:11px;color:var(--gray)">300 min/mo to 1 intl destination • Travel</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$15/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(11)">Edit</button>
+          <button onclick="deletePerk(11)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">3 TravelPass Days</div>
+            <div style="font-size:11px;color:var(--gray)">3 days/mo in 210+ countries • Travel</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--red)">$10/mo</span>
+          <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openPerkForm(12)">Edit</button>
+          <button onclick="deletePerk(12)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+        </div></div>
     </div>
 
     <!-- Bundle Form -->
     <div id="adm-bundle-form" class="card hidden" style="margin-top:16px">
       <div class="card-title" id="bundle-form-title">Add Bundle</div>
-      <label class="flbl">Bundle Name</label><input class="inp" id="bf-name" placeholder="e.g. Movie & Show Lovers">
+      <label class="flbl">Bundle Name</label><input class="inp" id="bf-name" placeholder="e.g. Movie &amp; Show Lovers">
       <label class="flbl">Price ($/mo)</label><input class="inp" id="bf-price" type="number" step="0.01">
       <label class="flbl">Retail Value ($/mo)</label><input class="inp" id="bf-retail" type="number" step="0.01">
       <label class="flbl" style="margin-top:8px">Included Perks (select all that apply)</label>
@@ -532,13 +1039,117 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <button class="btn btn-red btn-xs" style="width:auto;padding:0 16px" onclick="openBundleForm(-1)">+ Add</button>
     </div>
     <div class="card" style="padding:10px 14px">
-      <div id="adm-bundles-list"></div>
+      <div id="adm-bundles-list"><div style="padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">Movie &amp; Show Lovers</div>
+              <div style="font-size:11px;color:var(--gray)">Disney Bundle, Netflix &amp; Max</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">$23/mo</span>
+            <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openBundleForm(0)">Edit</button>
+            <button onclick="deleteBundle(0)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+          </div>
+        </div><div style="padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">Families on Apple</div>
+              <div style="font-size:11px;color:var(--gray)">Apple Music Family, Verizon Family Plus</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">$20/mo</span>
+            <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openBundleForm(1)">Edit</button>
+            <button onclick="deleteBundle(1)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+          </div>
+        </div><div style="padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">Families on Android</div>
+              <div style="font-size:11px;color:var(--gray)">YouTube Premium, Verizon Family Plus</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">$20/mo</span>
+            <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openBundleForm(2)">Edit</button>
+            <button onclick="deleteBundle(2)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+          </div>
+        </div><div style="padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">Essentials</div>
+              <div style="font-size:11px;color:var(--gray)">Unlimited Hotspot, Verizon Cloud Unlimited</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">$20/mo</span>
+            <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openBundleForm(3)">Edit</button>
+            <button onclick="deleteBundle(3)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+          </div>
+        </div><div style="padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">Fans</div>
+              <div style="font-size:11px;color:var(--gray)">Disney Bundle, YouTube Premium, Premium Video (4K)</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">$25/mo</span>
+            <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openBundleForm(4)">Edit</button>
+            <button onclick="deleteBundle(4)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+          </div>
+        </div><div style="padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">Pros</div>
+              <div style="font-size:11px;color:var(--gray)">Google AI Pro, 100 GB Hotspot, Second Number</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">$30/mo</span>
+            <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openBundleForm(5)">Edit</button>
+            <button onclick="deleteBundle(5)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+          </div>
+        </div><div style="padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">Travelers</div>
+              <div style="font-size:11px;color:var(--gray)">Global Calling Plus, Verizon Cloud Unlimited, 3 TravelPass Days</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">$30/mo</span>
+            <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openBundleForm(6)">Edit</button>
+            <button onclick="deleteBundle(6)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+          </div>
+        </div><div style="padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">Apple Specialists</div>
+              <div style="font-size:11px;color:var(--gray)">Apple Music Family, Premium Video (4K)</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">$25/mo</span>
+            <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openBundleForm(7)">Edit</button>
+            <button onclick="deleteBundle(7)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+          </div>
+        </div><div style="padding:9px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">Android Specialists</div>
+              <div style="font-size:11px;color:var(--gray)">YouTube Premium, Google AI Pro, Premium Video (4K)</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">$25/mo</span>
+            <button class="btn btn-ghost btn-xs" style="width:auto;padding:0 10px" onclick="openBundleForm(8)">Edit</button>
+            <button onclick="deleteBundle(8)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">✕</button>
+          </div>
+        </div></div>
     </div>
 
     <!-- Simplicity Upgrades -->
     <div style="font-size:16px;font-weight:800;margin:16px 0 12px">Simplicity Upgrades</div>
     <div class="card" style="padding:10px 14px">
-      <div id="adm-upgrades-list"></div>
+      <div id="adm-upgrades-list">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="flex:1"><div style="font-size:13px;font-weight:700">Simplicity Plus</div><div style="font-size:11px;color:var(--gray)">Annual phone upgrade on Verizon's network</div></div>
+        <div style="display:flex;align-items:center;gap:4px">
+          <span style="font-size:12px">$</span>
+          <input type="number" step="1" value="35" style="width:60px;height:36px;border:2px solid var(--border);border-radius:8px;padding:0 8px;font-size:14px;font-weight:700" onchange="CONFIG.simplicityUpgrades[0].price=parseFloat(this.value)||u.price">
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="flex:1"><div style="font-size:13px;font-weight:700">Simplicity Pro</div><div style="font-size:11px;color:var(--gray)">Annual upgrade on any carrier + device unlock</div></div>
+        <div style="display:flex;align-items:center;gap:4px">
+          <span style="font-size:12px">$</span>
+          <input type="number" step="1" value="50" style="width:60px;height:36px;border:2px solid var(--border);border-radius:8px;padding:0 8px;font-size:14px;font-weight:700" onchange="CONFIG.simplicityUpgrades[1].price=parseFloat(this.value)||u.price">
+        </div>
+      </div></div>
     </div>
   </div>
 
@@ -574,69 +1185,785 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <script>
 // __CONFIG_START__
 let CONFIG = {
-  admin: { password:"vzadmin", specialistEmail:"", managerEmail:"" },
-  email: { serviceId:"", templateId:"", publicKey:"" },
-  simplicity: { priceFullDiscount:30, priceAutopayOnly:45, priceNoDiscount:55, deviceDiscountPct:0.5, deviceDiscountCap:25 },
-  myplan: {
-    welcome: {1:65, 2:55, 3:40, "4+":30},
-    plus:    {1:80, 2:70, 3:55, "4+":45},
-    ultimate:{1:95, 2:85, 3:70, "4+":60}
+  "admin": {
+    "password": "vzadmin",
+    "specialistEmail": "",
+    "managerEmail": ""
   },
-  devices: {
-    watch:  { basic:15, premium:25 },
-    tablet: { welcome:20, unlimited:40, unlimitedPlus:50 }
+  "email": {
+    "serviceId": "",
+    "templateId": "",
+    "publicKey": ""
   },
-  promos: "Check InfoManager Promotions for current device deals.\nAsk about Verizon Home Internet discount ($15/mo off when bundled).\nSimplicity: No activation fees for new customers.",
-  perks: {
-    individual: [
-      {id:"disney-bundle", name:"Disney Bundle",           desc:"Disney+, Hulu & ESPN+",              price:10,    category:"Streaming"},
-      {id:"netflix-max",   name:"Netflix & Max",            desc:"Netflix Standard + Max (with Ads)",  price:10,    category:"Streaming"},
-      {id:"4k-video",      name:"Premium Video (4K)",       desc:"4K streaming on compatible devices", price:10,    category:"Streaming"},
-      {id:"apple-music-f", name:"Apple Music Family",       desc:"Up to 6 people",                    price:16.99, category:"Music"},
-      {id:"youtube-prem",  name:"YouTube Premium",          desc:"Ad-free YouTube + YouTube Music",    price:13.99, category:"Music"},
-      {id:"vz-fam-plus",   name:"Verizon Family Plus",      desc:"Call Filter Plus + Smart Family",   price:10,    category:"Verizon"},
-      {id:"vz-cloud-unl",  name:"Verizon Cloud Unlimited",  desc:"Unlimited photo & video backup",    price:10,    category:"Verizon"},
-      {id:"second-num",    name:"Second Number",             desc:"Second number on same device",      price:10,    category:"Verizon"},
-      {id:"hs-100gb",      name:"100 GB Hotspot",           desc:"Adds 100 GB hotspot (Welcome)",      price:10,    category:"Hotspot"},
-      {id:"hs-unlimited",  name:"Unlimited Hotspot",        desc:"Unlimited mobile hotspot data",     price:20,    category:"Hotspot"},
-      {id:"google-ai",     name:"Google AI Pro",            desc:"Gemini Advanced + 2 TB Google One", price:19.99, category:"Productivity"},
-      {id:"global-call",   name:"Global Calling Plus",      desc:"300 min/mo to 1 intl destination",  price:15,    category:"Travel"},
-      {id:"intl-15gb",     name:"15 GB Intl Data",          desc:"15 GB in 210+ countries",           price:10,    category:"Travel"},
-      {id:"travelpass-3",  name:"3 TravelPass Days",        desc:"3 days/mo in 210+ countries",       price:12,    category:"Travel"}
+  "simplicity": {
+    "priceFullDiscount": 30,
+    "priceAutopayOnly": 45,
+    "priceNoDiscount": 55,
+    "deviceDiscountPct": 0.5,
+    "deviceDiscountCap": 25
+  },
+  "myplan": {
+    "welcome": {
+      "1": 65,
+      "2": 55,
+      "3": 40,
+      "4+": 30
+    },
+    "plus": {
+      "1": 80,
+      "2": 70,
+      "3": 55,
+      "4+": 45
+    },
+    "ultimate": {
+      "1": 95,
+      "2": 85,
+      "3": 70,
+      "4+": 60
+    }
+  },
+  "devices": {
+    "watch": {
+      "basic": 15,
+      "premium": 25
+    },
+    "tablet": {
+      "welcome": 20,
+      "unlimited": 40,
+      "unlimitedPlus": 50
+    }
+  },
+  "promos": "Check InfoManager Promotions for current device deals.\nAsk about Verizon Home Internet discount ($15/mo off when bundled).\nSimplicity: No activation fees for new customers.",
+  "perks": {
+    "individual": [
+      {
+        "id": "disney-bundle",
+        "name": "Disney Bundle",
+        "desc": "Disney+, Hulu & ESPN+",
+        "price": 10,
+        "category": "Streaming"
+      },
+      {
+        "id": "netflix-max",
+        "name": "Netflix & Max",
+        "desc": "Netflix Standard + Max (with Ads)",
+        "price": 13,
+        "category": "Streaming"
+      },
+      {
+        "id": "4k-video",
+        "name": "Premium Video (4K)",
+        "desc": "4K streaming on compatible devices",
+        "price": 10,
+        "category": "Streaming"
+      },
+      {
+        "id": "apple-music-f",
+        "name": "Apple Music Family",
+        "desc": "Up to 6 people",
+        "price": 10,
+        "category": "Music"
+      },
+      {
+        "id": "youtube-prem",
+        "name": "YouTube Premium",
+        "desc": "Ad-free YouTube + YouTube Music",
+        "price": 12,
+        "category": "Music"
+      },
+      {
+        "id": "vz-fam-plus",
+        "name": "Verizon Family Plus",
+        "desc": "Call Filter Plus + Smart Family",
+        "price": 10,
+        "category": "Verizon"
+      },
+      {
+        "id": "vz-cloud-unl",
+        "name": "Verizon Cloud Unlimited",
+        "desc": "Unlimited photo & video backup",
+        "price": 10,
+        "category": "Verizon"
+      },
+      {
+        "id": "second-num",
+        "name": "Second Number",
+        "desc": "Second number on same device",
+        "price": 10,
+        "category": "Verizon"
+      },
+      {
+        "id": "hs-100gb",
+        "name": "100 GB Hotspot",
+        "desc": "Adds 100 GB hotspot (Welcome)",
+        "price": 10,
+        "category": "Hotspot"
+      },
+      {
+        "id": "hs-unlimited",
+        "name": "Unlimited Hotspot",
+        "desc": "Unlimited mobile hotspot data",
+        "price": 20,
+        "category": "Hotspot"
+      },
+      {
+        "id": "google-ai",
+        "name": "Google AI Pro",
+        "desc": "Gemini Advanced + 2 TB Google One",
+        "price": 10,
+        "category": "Productivity"
+      },
+      {
+        "id": "global-call",
+        "name": "Global Calling Plus",
+        "desc": "300 min/mo to 1 intl destination",
+        "price": 15,
+        "category": "Travel"
+      },
+      {
+        "id": "travelpass-3",
+        "name": "3 TravelPass Days",
+        "desc": "3 days/mo in 210+ countries",
+        "price": 10,
+        "category": "Travel"
+      }
     ],
-    bundles: [
-      {id:"movie-lovers", name:"Movie & Show Lovers",     perkIds:["disney-bundle","netflix-max"],                       price:23, retailValue:20},
-      {id:"apple-fam",    name:"Families on Apple",       perkIds:["apple-music-f","vz-fam-plus"],                       price:20, retailValue:27},
-      {id:"android-fam",  name:"Families on Android",     perkIds:["youtube-prem","vz-fam-plus"],                        price:20, retailValue:24},
-      {id:"essentials",   name:"Essentials",              perkIds:["hs-unlimited","vz-cloud-unl"],                       price:20, retailValue:30},
-      {id:"fans",         name:"Fans",                    perkIds:["disney-bundle","youtube-prem","4k-video"],            price:25, retailValue:34},
-      {id:"pros",         name:"Pros",                    perkIds:["google-ai","hs-100gb","second-num"],                 price:30, retailValue:40},
-      {id:"travelers",    name:"Travelers",               perkIds:["global-call","vz-cloud-unl","travelpass-3"],          price:30, retailValue:37},
-      {id:"apple-spec",   name:"Apple Specialists",       perkIds:["apple-music-f","4k-video"],                          price:25, retailValue:27},
-      {id:"android-spec", name:"Android Specialists",     perkIds:["youtube-prem","google-ai","4k-video"],               price:25, retailValue:44},
-      {id:"pros-up",      name:"Pros (Upgrade)",          perkIds:["google-ai","hs-unlimited","second-num"],             price:35, retailValue:50},
-      {id:"apple-dwn",    name:"Apple Specialists (Base)",perkIds:["apple-music-f"],                                     price:20, retailValue:17}
+    "bundles": [
+      {
+        "id": "movie-lovers",
+        "name": "Movie & Show Lovers",
+        "perkIds": [
+          "disney-bundle",
+          "netflix-max"
+        ],
+        "price": 23,
+        "retailValue": 20
+      },
+      {
+        "id": "apple-fam",
+        "name": "Families on Apple",
+        "perkIds": [
+          "apple-music-f",
+          "vz-fam-plus"
+        ],
+        "price": 20,
+        "retailValue": 27
+      },
+      {
+        "id": "android-fam",
+        "name": "Families on Android",
+        "perkIds": [
+          "youtube-prem",
+          "vz-fam-plus"
+        ],
+        "price": 20,
+        "retailValue": 24
+      },
+      {
+        "id": "essentials",
+        "name": "Essentials",
+        "perkIds": [
+          "hs-unlimited",
+          "vz-cloud-unl"
+        ],
+        "price": 20,
+        "retailValue": 30
+      },
+      {
+        "id": "fans",
+        "name": "Fans",
+        "perkIds": [
+          "disney-bundle",
+          "youtube-prem",
+          "4k-video"
+        ],
+        "price": 25,
+        "retailValue": 34
+      },
+      {
+        "id": "pros",
+        "name": "Pros",
+        "perkIds": [
+          "google-ai",
+          "hs-100gb",
+          "second-num"
+        ],
+        "price": 30,
+        "retailValue": 40
+      },
+      {
+        "id": "travelers",
+        "name": "Travelers",
+        "perkIds": [
+          "global-call",
+          "vz-cloud-unl",
+          "travelpass-3"
+        ],
+        "price": 30,
+        "retailValue": 37
+      },
+      {
+        "id": "apple-spec",
+        "name": "Apple Specialists",
+        "perkIds": [
+          "apple-music-f",
+          "4k-video"
+        ],
+        "price": 25,
+        "retailValue": 27
+      },
+      {
+        "id": "android-spec",
+        "name": "Android Specialists",
+        "perkIds": [
+          "youtube-prem",
+          "google-ai",
+          "4k-video"
+        ],
+        "price": 25,
+        "retailValue": 44
+      }
     ]
   },
-  simplicityUpgrades: [
-    {id:"simp-plus", name:"Simplicity Plus",    price:35, desc:"Annual phone upgrade on Verizon's network"},
-    {id:"simp-pro",  name:"Simplicity Pro", price:50, desc:"Annual upgrade on any carrier + device unlock"}
+  "simplicityUpgrades": [
+    {
+      "id": "simp-plus",
+      "name": "Simplicity Plus",
+      "price": 35,
+      "desc": "Annual phone upgrade on Verizon's network"
+    },
+    {
+      "id": "simp-pro",
+      "name": "Simplicity Pro",
+      "price": 50,
+      "desc": "Annual upgrade on any carrier + device unlock"
+    }
   ],
-  phones: [
-    {type:"phone",  brand:"Apple",   name:"iPhone 16",          capacities:[{s:"128GB",p:799},{s:"256GB",p:899},{s:"512GB",p:1099}],            colors:["Black","White","Pink","Teal","Ultramarine"],              promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
-    {type:"phone",  brand:"Apple",   name:"iPhone 16 Plus",     capacities:[{s:"256GB",p:899},{s:"512GB",p:1099},{s:"1TB",p:1299}],              colors:["Black","White","Pink","Teal","Ultramarine"],              promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
-    {type:"phone",  brand:"Apple",   name:"iPhone 16 Pro",      capacities:[{s:"256GB",p:999},{s:"512GB",p:1099},{s:"1TB",p:1299}],              colors:["Black Titanium","White Titanium","Natural Titanium","Desert Titanium"], promoEligible:true, byodEligible:true, active:true, simpUpgrade:"both", notes:""},
-    {type:"phone",  brand:"Apple",   name:"iPhone 16 Pro Max",  capacities:[{s:"256GB",p:1199},{s:"512GB",p:1299},{s:"1TB",p:1499}],             colors:["Black Titanium","White Titanium","Natural Titanium","Desert Titanium"], promoEligible:true, byodEligible:true, active:true, simpUpgrade:"both", notes:""},
-    {type:"phone",  brand:"Samsung", name:"Galaxy S25",         capacities:[{s:"128GB",p:799},{s:"256GB",p:859}],                                colors:["Icy Blue","Mint","Navy","Silver Shadow"],                 promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
-    {type:"phone",  brand:"Samsung", name:"Galaxy S25+",        capacities:[{s:"256GB",p:999},{s:"512GB",p:1119}],                               colors:["Icy Blue","Mint","Navy","Silver Shadow"],                 promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
-    {type:"phone",  brand:"Samsung", name:"Galaxy S25 Ultra",   capacities:[{s:"256GB",p:1299},{s:"512GB",p:1419},{s:"1TB",p:1659}],             colors:["Titanium Black","Titanium Gray","Titanium Silverblue","Titanium Whitesilver"], promoEligible:true, byodEligible:true, active:true, simpUpgrade:"both", notes:""},
-    {type:"phone",  brand:"Google",  name:"Pixel 9",            capacities:[{s:"128GB",p:799},{s:"256GB",p:899}],                                colors:["Obsidian","Porcelain","Wintergreen","Peony"],             promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
-    {type:"phone",  brand:"Google",  name:"Pixel 9 Pro",        capacities:[{s:"128GB",p:999},{s:"256GB",p:1099},{s:"512GB",p:1199}],            colors:["Obsidian","Porcelain","Hazel","Rose Quartz"],             promoEligible:true,  byodEligible:true,  active:true, simpUpgrade:"both", notes:""},
-    {type:"tablet", brand:"Apple",   name:"iPad (10th Gen)",    capacities:[{s:"64GB",p:449},{s:"256GB",p:599}],                                 colors:["Blue","Pink","Yellow","Silver"],                          promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""},
-    {type:"tablet", brand:"Apple",   name:"iPad Air (M2)",      capacities:[{s:"128GB",p:599},{s:"256GB",p:749},{s:"512GB",p:999}],              colors:["Blue","Purple","Starlight","Space Gray"],                 promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""},
-    {type:"tablet", brand:"Samsung", name:"Galaxy Tab S10 FE",  capacities:[{s:"128GB",p:549},{s:"256GB",p:649}],                                colors:["Graphite","Mint","Lavender"],                             promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""},
-    {type:"watch",  brand:"Apple",   name:"Apple Watch Series 10",capacities:[{s:"GPS 42mm",p:399},{s:"GPS+Cell 42mm",p:499},{s:"GPS 46mm",p:429},{s:"GPS+Cell 46mm",p:529}], colors:["Aluminum","Black Aluminum","Rose Gold Aluminum","Silver Aluminum"], promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""},
-    {type:"watch",  brand:"Samsung", name:"Galaxy Watch 7",     capacities:[{s:"40mm",p:299},{s:"44mm",p:329}],                                  colors:["Cream","Green","Silver"],                                promoEligible:false, byodEligible:false, active:true, simpUpgrade:null, notes:""}
+  "promotions": [
+    {
+      "id": "iphone17-standalone",
+      "ost": "409203",
+      "name": "iPhone 17 Series — as low as $0/mo",
+      "expires": "2026-07-01",
+      "tagline": "Up to $1,000 off select iPhone 17 models with a new line on myPlan",
+      "scope": "line",
+      "type": "device",
+      "applies": { "dealTypes": ["promo", "retail"], "planTypes": ["myplan"] },
+      "deviceDiscounts": {
+        "iPhone 17":         { "ultimate": 830, "plus": 830, "welcome": 0 },
+        "iPhone Air":        { "ultimate": 1000, "plus": 830, "welcome": 0 },
+        "iPhone 17 Pro":     { "ultimate": 1000, "plus": 830, "welcome": 0 },
+        "iPhone 17 Pro Max": { "ultimate": 1000, "plus": 830, "welcome": 0 }
+      },
+      "questions": [
+        { "id": "q1", "text": "Transaction is new account, port-in, add-a-line, or prepaid to postpaid (NOT an upgrade)" },
+        { "id": "q2", "text": "Customer's account has no past due balance" }
+      ]
+    },
+    {
+      "id": "byod-bic-180",
+      "ost": "401248",
+      "name": "Best Buy BYOD — $180 Bill Credit",
+      "expires": "2026-06-30",
+      "tagline": "$5/mo off for 36 months — bring your own phone to myPlan",
+      "scope": "line",
+      "applies": { "dealTypes": ["byod"], "planTypes": ["myplan"] },
+      "discount": {
+        "label": "$180 total savings",
+        "note": "$5/mo bill credit · 36 months · myPlan only · port-in required",
+        "monthly": 5,
+        "months": 36
+      },
+      "questions": [
+        { "id": "q1", "text": "Customer is porting in from another carrier (port-in is required)" },
+        { "id": "q2", "text": "Customer's device is a 4G/5G compatible smartphone (not a tablet, watch, or 3G device)" },
+        { "id": "q3", "text": "Customer's account has no past due balance" }
+      ]
+    },
+    {
+      "id": "bestbuy-540",
+      "ost": "401063",
+      "name": "Best Buy Exclusive — $540 Savings",
+      "expires": "2026-06-30",
+      "tagline": "$15/mo off for 36 months — exclusively at Best Buy",
+      "scope": "account",
+      "applies": { "planTypes": ["myplan"] },
+      "discount": {
+        "label": "$540 total savings",
+        "note": "$15/mo bill credit · 36 months · myPlan only",
+        "monthly": 15,
+        "months": 36
+      },
+      "questions": [
+        { "id": "q1", "text": "Customer has NOT previously received a Best Buy exclusive discount on this Verizon account (once per account)" }
+      ]
+    }
+  ],
+  "phones": [
+    {
+      "type": "phone",
+      "brand": "Apple",
+      "name": "iPhone Air",
+      "capacities": [
+        { "s": "256GB", "p": 999 },
+        { "s": "512GB", "p": 1199 },
+        { "s": "1TB", "p": 1399 }
+      ],
+      "colors": ["Sky Blue", "Light Gold", "Cloud White", "Space Black"],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Apple",
+      "name": "iPhone 17 Pro Max",
+      "capacities": [
+        { "s": "256GB", "p": 1199 },
+        { "s": "512GB", "p": 1399 },
+        { "s": "1TB", "p": 1599 },
+        { "s": "2TB", "p": 1999 }
+      ],
+      "colors": ["Silver", "Cosmic Orange", "Deep Blue"],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Apple",
+      "name": "iPhone 17 Pro",
+      "capacities": [
+        { "s": "256GB", "p": 1099 },
+        { "s": "512GB", "p": 1299 },
+        { "s": "1TB", "p": 1499 }
+      ],
+      "colors": ["Silver", "Cosmic Orange", "Deep Blue"],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Apple",
+      "name": "iPhone 17",
+      "capacities": [
+        { "s": "256GB", "p": 799 },
+        { "s": "512GB", "p": 999 }
+      ],
+      "colors": ["Black", "White", "Lavender", "Sage", "Mist Blue"],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Apple",
+      "name": "iPhone 16",
+      "capacities": [
+        {
+          "s": "128GB",
+          "p": 799
+        },
+        {
+          "s": "256GB",
+          "p": 899
+        },
+        {
+          "s": "512GB",
+          "p": 1099
+        }
+      ],
+      "colors": [
+        "Black",
+        "White",
+        "Pink",
+        "Teal",
+        "Ultramarine"
+      ],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Apple",
+      "name": "iPhone 16 Plus",
+      "capacities": [
+        {
+          "s": "256GB",
+          "p": 899
+        },
+        {
+          "s": "512GB",
+          "p": 1099
+        },
+        {
+          "s": "1TB",
+          "p": 1299
+        }
+      ],
+      "colors": [
+        "Black",
+        "White",
+        "Pink",
+        "Teal",
+        "Ultramarine"
+      ],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Apple",
+      "name": "iPhone 16 Pro",
+      "capacities": [
+        {
+          "s": "256GB",
+          "p": 999
+        },
+        {
+          "s": "512GB",
+          "p": 1099
+        },
+        {
+          "s": "1TB",
+          "p": 1299
+        }
+      ],
+      "colors": [
+        "Black Titanium",
+        "White Titanium",
+        "Natural Titanium",
+        "Desert Titanium"
+      ],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Apple",
+      "name": "iPhone 16 Pro Max",
+      "capacities": [
+        {
+          "s": "256GB",
+          "p": 1199
+        },
+        {
+          "s": "512GB",
+          "p": 1299
+        },
+        {
+          "s": "1TB",
+          "p": 1499
+        }
+      ],
+      "colors": [
+        "Black Titanium",
+        "White Titanium",
+        "Natural Titanium",
+        "Desert Titanium"
+      ],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Samsung",
+      "name": "Galaxy S25",
+      "capacities": [
+        {
+          "s": "128GB",
+          "p": 799
+        },
+        {
+          "s": "256GB",
+          "p": 859
+        }
+      ],
+      "colors": [
+        "Icy Blue",
+        "Mint",
+        "Navy",
+        "Silver Shadow"
+      ],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Samsung",
+      "name": "Galaxy S25+",
+      "capacities": [
+        {
+          "s": "256GB",
+          "p": 999
+        },
+        {
+          "s": "512GB",
+          "p": 1119
+        }
+      ],
+      "colors": [
+        "Icy Blue",
+        "Mint",
+        "Navy",
+        "Silver Shadow"
+      ],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Samsung",
+      "name": "Galaxy S25 Ultra",
+      "capacities": [
+        {
+          "s": "256GB",
+          "p": 1299
+        },
+        {
+          "s": "512GB",
+          "p": 1419
+        },
+        {
+          "s": "1TB",
+          "p": 1659
+        }
+      ],
+      "colors": [
+        "Titanium Black",
+        "Titanium Gray",
+        "Titanium Silverblue",
+        "Titanium Whitesilver"
+      ],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Google",
+      "name": "Pixel 9",
+      "capacities": [
+        {
+          "s": "128GB",
+          "p": 799
+        },
+        {
+          "s": "256GB",
+          "p": 899
+        }
+      ],
+      "colors": [
+        "Obsidian",
+        "Porcelain",
+        "Wintergreen",
+        "Peony"
+      ],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "phone",
+      "brand": "Google",
+      "name": "Pixel 9 Pro",
+      "capacities": [
+        {
+          "s": "128GB",
+          "p": 999
+        },
+        {
+          "s": "256GB",
+          "p": 1099
+        },
+        {
+          "s": "512GB",
+          "p": 1199
+        }
+      ],
+      "colors": [
+        "Obsidian",
+        "Porcelain",
+        "Hazel",
+        "Rose Quartz"
+      ],
+      "promoEligible": true,
+      "byodEligible": true,
+      "active": true,
+      "simpUpgrade": "both",
+      "notes": ""
+    },
+    {
+      "type": "tablet",
+      "brand": "Apple",
+      "name": "iPad (10th Gen)",
+      "capacities": [
+        {
+          "s": "64GB",
+          "p": 449
+        },
+        {
+          "s": "256GB",
+          "p": 599
+        }
+      ],
+      "colors": [
+        "Blue",
+        "Pink",
+        "Yellow",
+        "Silver"
+      ],
+      "promoEligible": false,
+      "byodEligible": false,
+      "active": true,
+      "simpUpgrade": null,
+      "notes": ""
+    },
+    {
+      "type": "tablet",
+      "brand": "Apple",
+      "name": "iPad Air (M2)",
+      "capacities": [
+        {
+          "s": "128GB",
+          "p": 599
+        },
+        {
+          "s": "256GB",
+          "p": 749
+        },
+        {
+          "s": "512GB",
+          "p": 999
+        }
+      ],
+      "colors": [
+        "Blue",
+        "Purple",
+        "Starlight",
+        "Space Gray"
+      ],
+      "promoEligible": false,
+      "byodEligible": false,
+      "active": true,
+      "simpUpgrade": null,
+      "notes": ""
+    },
+    {
+      "type": "tablet",
+      "brand": "Samsung",
+      "name": "Galaxy Tab S10 FE",
+      "capacities": [
+        {
+          "s": "128GB",
+          "p": 549
+        },
+        {
+          "s": "256GB",
+          "p": 649
+        }
+      ],
+      "colors": [
+        "Graphite",
+        "Mint",
+        "Lavender"
+      ],
+      "promoEligible": false,
+      "byodEligible": false,
+      "active": true,
+      "simpUpgrade": null,
+      "notes": ""
+    },
+    {
+      "type": "watch",
+      "brand": "Apple",
+      "name": "Apple Watch Series 10",
+      "capacities": [
+        {
+          "s": "GPS 42mm",
+          "p": 399
+        },
+        {
+          "s": "GPS+Cell 42mm",
+          "p": 499
+        },
+        {
+          "s": "GPS 46mm",
+          "p": 429
+        },
+        {
+          "s": "GPS+Cell 46mm",
+          "p": 529
+        }
+      ],
+      "colors": [
+        "Aluminum",
+        "Black Aluminum",
+        "Rose Gold Aluminum",
+        "Silver Aluminum"
+      ],
+      "promoEligible": false,
+      "byodEligible": false,
+      "active": true,
+      "simpUpgrade": null,
+      "notes": ""
+    },
+    {
+      "type": "watch",
+      "brand": "Samsung",
+      "name": "Galaxy Watch 7",
+      "capacities": [
+        {
+          "s": "40mm",
+          "p": 299
+        },
+        {
+          "s": "44mm",
+          "p": 329
+        }
+      ],
+      "colors": [
+        "Cream",
+        "Green",
+        "Silver"
+      ],
+      "promoEligible": false,
+      "byodEligible": false,
+      "active": true,
+      "simpUpgrade": null,
+      "notes": ""
+    }
   ]
 };
 // __CONFIG_END__
@@ -684,7 +2011,8 @@ function startOver() {
 function freshLine(i) {
   return { name:"Line "+(i+1), hotspot:0, travel:0, deviceDeal:"byod",
            selectedPhone:null, selectedPlan:null,
-           bundleId:null, perkIds:[], myplanPerkIds:[], simpPerkIds:[], simpUpgrade:null, financeTerm:null, myplanFinanceTerm:null, simpFinanceTerm:null };
+           bundleId:null, perkIds:[], myplanPerkIds:[], simpPerkIds:[], simpUpgrade:null, financeTerm:null, myplanFinanceTerm:null, simpFinanceTerm:null,
+           promoAnswers:{} };
 }
 
 // ============================================================
@@ -765,15 +2093,43 @@ const DEAL_OPTS = [
 const Q_LABELS = ["Hotspot Usage","International Travel","Phone Selection"];
 
 // Q0=hotspot, Q1=travel, Q2=deal, Q3=phone picker, Q4=financing (non-byod only)
-function lineqSteps(deal) {
-  return deal === "byod" ? 3 : 5;
+function getActivePromos() {
+  const today = new Date().toISOString().slice(0, 10);
+  return (CONFIG.promotions || []).filter(p => !p.expires || p.expires >= today);
+}
+
+function getEligiblePromos(line, lineIdx) {
+  const idx = lineIdx !== undefined ? lineIdx : 0;
+  return getActivePromos().filter(p => {
+    if (p.scope === "account" && idx > 0) return false; // account promos only on line 1
+    if (!p.applies) return true;
+    if (p.applies.dealTypes && !p.applies.dealTypes.includes(line.deviceDeal)) return false;
+    return true;
+  });
+}
+
+function isPromoQualified(line, promoId) {
+  const p = (CONFIG.promotions || []).find(x => x.id === promoId);
+  const pa = (line.promoAnswers || {})[promoId] || {};
+  if (!pa.applied) return false;
+  if (!p || !p.questions || !p.questions.length) return pa.applied;
+  return p.questions.every(q => pa[q.id]);
+}
+
+function lineqSteps(line, lineIdx) {
+  const deal = typeof line === "string" ? line : line.deviceDeal;
+  const lineObj = typeof line === "string" ? {deviceDeal: line} : line;
+  const idx = lineIdx !== undefined ? lineIdx : 0;
+  const hasPromos = getEligiblePromos(lineObj, idx).length > 0;
+  if (deal === "byod") return hasPromos ? 4 : 3;
+  return hasPromos ? 6 : 5;
 }
 
 function buildLineQ() {
   const idx = state.currentLineIdx;
   const q = state.currentLineQ;
   const line = state.lines[idx];
-  const totalQ = lineqSteps(line.deviceDeal);
+  const totalQ = lineqSteps(line, idx);
 
   // Line dots
   let lineDots = state.lines.map((_,i) => {
@@ -801,13 +2157,16 @@ function buildLineQ() {
     // Deal
     body = `<div class="sh">Getting a Phone?</div><div class="ss">${line.name}</div>`;
     body += DEAL_OPTS.map(o => `<button class="choice ${line.deviceDeal===o.val?"sel":""}" onclick="pickDeal('${o.val}',this)"><span class="cl">${o.label}</span><span class="cs">${o.sub}</span></button>`).join("");
-  } else if (q === 3) {
+  } else if (q === 3 && line.deviceDeal !== "byod") {
     // Phone picker
     body = buildPhonePickerHTML(line, idx);
+  } else if (q === 3 && line.deviceDeal === "byod") {
+    // Promotions step (BYOD path — no phone/payment steps)
+    body = buildPromoStepHTML(line, idx);
   } else if (q === 4) {
     // Financing options — apply defaults on first visit
     if (line.myplanFinanceTerm === null) line.myplanFinanceTerm = 36;
-    if (line.simpFinanceTerm === null)   line.simpFinanceTerm   = 48;
+    if (line.simpFinanceTerm === null && !line.simpUpgrade) line.simpFinanceTerm = 48;
     const _sp = line.selectedPhone;
     const _ph = (_sp && _sp.phoneIdx !== null && _sp.phoneIdx !== undefined) ? CONFIG.phones[_sp.phoneIdx] : null;
     const _cap = (_ph && _sp.capIdx !== null && _sp.capIdx !== undefined) ? _ph.capacities[_sp.capIdx] : null;
@@ -846,6 +2205,9 @@ function buildLineQ() {
           ${opt(_upgradeOption.name,_upgradeOption.desc,"+"+fmt(_upgradeOption.price)+"/mo",_upgradeSelected,"pickWizardSimpUpgrade('"+_upgradeOption.id+"')")}` : ""}
       </div>`;
     }
+  } else if (q === 5) {
+    // Promotions step (non-BYOD path)
+    body = buildPromoStepHTML(line, idx);
   }
 
   document.getElementById("lineq-content").innerHTML = `
@@ -864,12 +2226,12 @@ function buildLineQ() {
   const nextBtn = document.getElementById("lineq-next-btn");
   const backBtn = document.getElementById("lineq-back-btn");
   const isLastLine = idx === state.lines.length - 1;
-  const isLastQ = q === (lineqSteps(line.deviceDeal) - 1);
+  const isLastQ = q === (lineqSteps(line, idx) - 1);
   nextBtn.textContent = (isLastLine && isLastQ) ? "Devices →" : "Next →";
   backBtn.textContent = (idx === 0 && q === 0) ? "← Names" : "← Back";
 
-  // Hide next btn on phone picker (they must tap a phone)
-  if (q === 3) {
+  // Hide next btn on phone picker (they must tap a phone to proceed)
+  if (q === 3 && line.deviceDeal !== "byod") {
     nextBtn.classList.add("hidden");
   } else {
     nextBtn.classList.remove("hidden");
@@ -890,7 +2252,7 @@ function pickDeal(val, el) {
 
 function lineqNext() {
   const line = state.lines[state.currentLineIdx];
-  const maxQ = lineqSteps(line.deviceDeal) - 1;
+  const maxQ = lineqSteps(line, state.currentLineIdx) - 1;
   if (state.currentLineQ < maxQ) {
     state.currentLineQ++;
     buildLineQ();
@@ -913,7 +2275,7 @@ function lineqBack() {
   } else if (state.currentLineIdx > 0) {
     state.currentLineIdx--;
     const prevLine = state.lines[state.currentLineIdx];
-    state.currentLineQ = lineqSteps(prevLine.deviceDeal) - 1;
+    state.currentLineQ = lineqSteps(prevLine, state.currentLineIdx) - 1;
     buildLineQ();
   } else {
     go("s-names");
@@ -957,7 +2319,7 @@ function buildPhonePickerHTML(line, lineIdx) {
         "Obsidian":"#1a1a1a","Porcelain":"#f2ede8","Wintergreen":"#2d6a4f","Peony":"#db7093",
         "Hazel":"#8b7355","Rose Quartz":"#f7cac9","Blue":"#007aff","Purple":"#9b59b6",
         "Starlight":"#e8e0d5","Space Gray":"#3a3a3c","Yellow":"#ffd60a","Silver":"#c0c0c0",
-        "Graphite":"#3a3a3c","Lavender":"#e6e6fa","Cream":"#fffdd0","Green":"#355e3b",
+        "Graphite":"#3a3a3c","Lavender":"#DFCEEA","Sage":"#A9B689","Mist Blue":"#96AED1","Cosmic Orange":"#F77E2D","Deep Blue":"#32374A","Sky Blue":"#F0F9FF","Light Gold":"#FFFCF5","Cloud White":"#FCFCFC","Space Black":"#000000","Cream":"#fffdd0","Green":"#355e3b",
         "Aluminum":"#a8a8a8","Black Aluminum":"#2c2c2e","Rose Gold Aluminum":"#b76e79","Silver Aluminum":"#d4d4d2",
         "Red":"#e60023","Coral":"#ff6b6b","Midnight":"#1c1c1e","Starlight2":"#e3ddd3"
       };
@@ -983,10 +2345,25 @@ function buildPhonePickerHTML(line, lineIdx) {
         </div>
       </div>
       ${isExp ? `<div class="phone-expand">
+        <div class="phone-steps">
+          <div class="phone-step ${sel.capIdx!=null?'done':'active'}">
+            <div class="phone-step-num">${sel.capIdx!=null?'✓':'1'}</div><span>Storage</span>
+          </div>
+          <div class="phone-step-div"></div>
+          <div class="phone-step ${sel.color?'done':sel.capIdx!=null?'active':''}">
+            <div class="phone-step-num">${sel.color?'✓':'2'}</div><span>Color</span>
+          </div>
+          <div class="phone-step-div"></div>
+          <div class="phone-step ${sel.capIdx!=null&&sel.color?'active':''}">
+            <div class="phone-step-num">3</div><span>Confirm</span>
+          </div>
+        </div>
         <div class="perk-section-title">Storage</div>
         <div class="cap-grid">${capBtns}</div>
-        <span class="color-label">Color</span>
-        <div class="color-row">${colorSwatches}</div>
+        ${sel.capIdx!=null&&!sel.color
+          ? `<div class="color-highlight-box"><span class="color-label color-label-active">⬇ Pick a Color to continue</span><div class="color-row" id="color-row-active">${colorSwatches}</div></div>`
+          : `<span class="color-label">Color</span><div class="color-row">${colorSwatches}</div>`
+        }
         ${confirmBtn}
       </div>` : ""}
     </div>`;
@@ -1012,6 +2389,96 @@ function setBrandFilter(brand) {
   buildLineQ();
 }
 
+function buildPromoStepHTML(line, lineIdx) {
+  const eligible = getEligiblePromos(line, lineIdx);
+  const answers = line.promoAnswers || {};
+
+  if (!eligible.length) {
+    return `<div class="sh">Promotions</div>
+      <div class="ss">${line.name}</div>
+      <div class="info-box">No active promotions available right now. Continue to see your quote.</div>`;
+  }
+
+  const cards = eligible.map(p => {
+    const pa = answers[p.id] || {};
+    const isOn = !!pa.applied;
+    const allChecked = !p.questions || !p.questions.length || p.questions.every(q => pa[q.id]);
+    const isQualified = isOn && allChecked;
+
+    const expiresStr = p.expires
+      ? new Date(p.expires + "T12:00:00").toLocaleDateString("en-US", {month:"short", day:"numeric", year:"numeric"})
+      : "";
+
+    const requirementsHTML = isOn && p.questions && p.questions.length ? `
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+        <div class="perk-section-title" style="margin-bottom:10px">Verify All Requirements</div>
+        ${p.questions.map(q => `
+          <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;cursor:pointer">
+            <input type="checkbox" ${pa[q.id]?"checked":""} onchange="setPromoQ(${lineIdx},'${p.id}','${q.id}',this.checked)"
+              style="width:20px;height:20px;flex-shrink:0;margin-top:0;accent-color:var(--red);cursor:pointer">
+            <span style="font-size:13px;line-height:1.4">${q.text}</span>
+          </label>`).join("")}
+        ${isQualified
+          ? `<div style="background:#dcfce7;border-radius:8px;padding:10px;font-size:13px;font-weight:800;color:#16a34a;text-align:center">✓ Customer Qualifies!</div>`
+          : `<div style="background:#fff5f5;border-radius:8px;padding:10px;font-size:12px;color:var(--red);text-align:center">Check all boxes above to confirm eligibility</div>`}
+      </div>` : "";
+
+    return `<div class="promo-card ${isQualified?"promo-qualified":isOn?"promo-on":""}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+        <div style="flex:1">
+          <div class="promo-name">${p.name}</div>
+          <div class="promo-tagline">${p.tagline || ""}</div>
+          ${p.discount ? `<div class="promo-discount">${p.discount.label}</div>` : ""}
+          ${p.discount && p.discount.note ? `<div class="promo-note">${p.discount.note}</div>` : ""}
+          ${expiresStr ? `<div class="promo-expires">Expires ${expiresStr}</div>` : ""}
+          ${p.ost ? `<div class="promo-expires">OST # ${p.ost}</div>` : ""}
+        </div>
+        <button class="promo-toggle ${isOn?"on":""}" onclick="toggleLinePromo(${lineIdx},'${p.id}')">
+          ${isOn ? "✓ Applied" : "Apply?"}
+        </button>
+      </div>
+      ${requirementsHTML}
+    </div>`;
+  }).join("");
+
+  return `<div class="sh">Promotions</div>
+    <div class="ss">Check available promotions for ${line.name}</div>
+    ${cards}`;
+}
+
+function toggleLinePromo(lineIdx, promoId) {
+  const l = state.lines[lineIdx];
+  if (!l.promoAnswers) l.promoAnswers = {};
+  const pa = l.promoAnswers[promoId] || {};
+  pa.applied = !pa.applied;
+  l.promoAnswers[promoId] = pa;
+  buildLineQ();
+}
+
+function setPromoQ(lineIdx, promoId, qId, checked) {
+  const l = state.lines[lineIdx];
+  if (!l.promoAnswers) l.promoAnswers = {};
+  if (!l.promoAnswers[promoId]) l.promoAnswers[promoId] = { applied: true };
+  l.promoAnswers[promoId][qId] = checked;
+  buildLineQ();
+}
+
+function toggleCustomizePromo(promoId, lineIdx) {
+  const l = state.lines[lineIdx !== undefined ? lineIdx : 0];
+  if (!l.promoAnswers) l.promoAnswers = {};
+  const pa = l.promoAnswers[promoId] || {};
+  l.promoAnswers[promoId] = pa.applied ? { applied: false } : { ...pa, applied: true };
+  renderCustomize();
+}
+
+function setCustomizePromoQ(promoId, qId, checked, lineIdx) {
+  const l = state.lines[lineIdx !== undefined ? lineIdx : 0];
+  if (!l.promoAnswers) l.promoAnswers = {};
+  if (!l.promoAnswers[promoId]) l.promoAnswers[promoId] = { applied: true };
+  l.promoAnswers[promoId][qId] = checked;
+  renderCustomize();
+}
+
 function togglePhone(realIdx) {
   const line = state.lines[state.currentLineIdx];
   if (line.selectedPhone && line.selectedPhone.phoneIdx === realIdx) {
@@ -1028,8 +2495,14 @@ function selectCap(realIdx, capIdx) {
     line.selectedPhone = { phoneIdx:realIdx, capIdx, color:null };
   } else {
     line.selectedPhone.capIdx = capIdx;
+    line.selectedPhone.color = null; // reset color when storage changes
   }
   buildLineQ();
+  // Scroll to color picker so it's obvious
+  setTimeout(() => {
+    const el = document.getElementById("color-row-active") || document.querySelector(".color-highlight-box");
+    if (el) el.scrollIntoView({ behavior:"smooth", block:"center" });
+  }, 60);
 }
 
 function selectColor(realIdx, color) {
@@ -1082,7 +2555,7 @@ function skipPhone() {
 function devBack() {
   state.currentLineIdx = state.lines.length - 1;
   const lastLine = state.lines[state.currentLineIdx];
-  state.currentLineQ = lineqSteps(lastLine.deviceDeal) - 1;
+  state.currentLineQ = lineqSteps(lastLine, state.lines.length - 1) - 1;
   buildLineQ();
   go("s-lineq");
 }
@@ -1096,6 +2569,22 @@ function adjDevice(type, delta) {
 // CALCULATION
 // ============================================================
 function nKey(n) { return n >= 4 ? "4+" : n; }
+
+function calcPromoDeviceCredit(line) {
+  // Returns total dollar device credit from qualified device-type promos on this line
+  if (line.deviceDeal !== "promo" && line.deviceDeal !== "retail") return 0;
+  if (!line.selectedPhone || line.selectedPhone.capIdx == null) return 0;
+  const ph = CONFIG.phones[line.selectedPhone.phoneIdx];
+  if (!ph) return 0;
+  const tier = line.selectedPlan || "welcome";
+  const today = new Date().toISOString().slice(0, 10);
+  return (CONFIG.promotions || []).reduce((sum, p) => {
+    if (p.type !== "device") return sum;
+    if (p.expires && p.expires < today) return sum;
+    if (!isPromoQualified(line, p.id)) return sum;
+    return sum + (p.deviceDiscounts?.[ph.name]?.[tier] || 0);
+  }, 0);
+}
 
 function calcDeviceDiscount(planKey, tablets, watches, slots) {
   const d = CONFIG.devices;
@@ -1122,6 +2611,51 @@ function recommendTier(line) {
   return "welcome";
 }
 
+function calcAccountPromoDiscount(planType) {
+  // Returns total monthly discount from all qualified promos (account + line level)
+  const today = new Date().toISOString().slice(0, 10);
+  let total = 0;
+  (CONFIG.promotions || []).forEach(p => {
+    if (p.expires && p.expires < today) return;
+    if (!p.discount?.monthly) return;
+    if (p.applies?.planTypes && !p.applies.planTypes.includes(planType)) return;
+    if (p.scope === "account") {
+      if (state.lines.some(l => isPromoQualified(l, p.id))) total += p.discount.monthly;
+    } else {
+      state.lines.forEach(l => { if (isPromoQualified(l, p.id)) total += p.discount.monthly; });
+    }
+  });
+  return total;
+}
+
+function calcLinePerkTotal(perkIds) {
+  if (!perkIds || !perkIds.length) return 0;
+  const perks = CONFIG.perks.individual;
+  const bundles = CONFIG.perks.bundles;
+  let remaining = [...perkIds];
+  let cost = 0;
+  // Greedy: apply most-savings bundles first
+  const eligible = bundles
+    .filter(b => b.perkIds.length > 0 && b.perkIds.every(id => remaining.includes(id)))
+    .map(b => {
+      const standalone = b.perkIds.reduce((s,id)=>{const p=perks.find(x=>x.id===id);return s+(p?p.price:0);},0);
+      return {...b, saving: standalone - b.price};
+    })
+    .filter(b => b.saving > 0)
+    .sort((a,b) => b.saving - a.saving);
+  for (const b of eligible) {
+    if (b.perkIds.every(id => remaining.includes(id))) {
+      cost += b.price;
+      remaining = remaining.filter(id => !b.perkIds.includes(id));
+    }
+  }
+  for (const id of remaining) {
+    const p = perks.find(x=>x.id===id);
+    if (p) cost += p.price;
+  }
+  return cost;
+}
+
 function calcMyPlan() {
   const n = state.lineCount;
   const nk = nKey(n);
@@ -1137,9 +2671,7 @@ function calcMyPlan() {
   const lineSlots = state.lines.reduce((s,l) => s + (l.selectedPlan==="ultimate"?2:l.selectedPlan==="plus"?1:0), 0);
   const devCalcCorrect = calcDeviceDiscount("myplan", tablets, watches, lineSlots);
   // Auto-assigned hotspot perk costs
-  const perkTotal = state.lines.reduce((s,l) => s + l.perkIds.reduce((ps,pid) => {
-    const p = CONFIG.perks.individual.find(x=>x.id===pid); return ps+(p?p.price:0);
-  }, 0), 0);
+  const perkTotal = state.lines.reduce((s,l) => s + calcLinePerkTotal(l.perkIds), 0);
 
   const myFinanceTotal = state.lines.reduce((s,l) => {
     const ft = l.myplanFinanceTerm;
@@ -1148,17 +2680,21 @@ function calcMyPlan() {
     if (!sp || sp.phoneIdx == null || sp.capIdx == null) return s;
     const ph = CONFIG.phones[sp.phoneIdx];
     const cap = ph && ph.capacities[sp.capIdx];
-    return s + (cap ? cap.p / ft : 0);
+    if (!cap) return s;
+    const credit = calcPromoDeviceCredit(l);
+    return s + Math.max(0, cap.p - credit) / ft;
   }, 0);
+  const myPromoDiscount = calcAccountPromoDiscount("myplan");
   return {
     type: "myplan",
     phoneTotal,
     perkTotal,
     financeTotal: myFinanceTotal,
+    promoDiscount: myPromoDiscount,
     deviceBase: devCalcCorrect.base,
     deviceDisc: devCalcCorrect.disc,
     deviceNet:  devCalcCorrect.net,
-    grandTotal: phoneTotal + perkTotal + devCalcCorrect.net + myFinanceTotal,
+    grandTotal: phoneTotal + perkTotal + devCalcCorrect.net + myFinanceTotal - myPromoDiscount,
     forced: anyPromo
   };
 }
@@ -1169,9 +2705,7 @@ function calcSimplicity() {
   const phoneTotal = CONFIG.simplicity.priceFullDiscount * n;
   const devCalc = calcDeviceDiscount("simplicity", tablets, watches);
   // Auto-assigned hotspot perk costs
-  const perkTotal = state.lines.reduce((s,l) => s + l.perkIds.reduce((ps,pid) => {
-    const p = CONFIG.perks.individual.find(x=>x.id===pid); return ps+(p?p.price:0);
-  }, 0), 0);
+  const perkTotal = state.lines.reduce((s,l) => s + calcLinePerkTotal(l.perkIds), 0);
   const simpFinanceTotal = state.lines.reduce((s,l) => {
     const ft = l.simpFinanceTerm;
     if (!ft || ft === "frp") return s;
@@ -1186,6 +2720,7 @@ function calcSimplicity() {
     const u = CONFIG.simplicityUpgrades.find(x => x.id === l.simpUpgrade);
     return s + (u ? u.price : 0);
   }, 0);
+  const simpPromoDiscount = calcAccountPromoDiscount("simplicity");
   return {
     type: "simplicity",
     pricePerLine: CONFIG.simplicity.priceFullDiscount,
@@ -1193,10 +2728,11 @@ function calcSimplicity() {
     perkTotal,
     financeTotal: simpFinanceTotal,
     upgradeTotal: simpUpgradeTotal,
+    promoDiscount: simpPromoDiscount,
     deviceBase: devCalc.base,
     deviceDisc: devCalc.disc,
     deviceNet:  devCalc.net,
-    grandTotal: phoneTotal + perkTotal + devCalc.net + simpFinanceTotal + simpUpgradeTotal
+    grandTotal: phoneTotal + perkTotal + devCalc.net + simpFinanceTotal + simpUpgradeTotal - simpPromoDiscount
   };
 }
 
@@ -1297,7 +2833,7 @@ function buildResults(anyPromo) {
       const tierLabel = tier==="welcome"?"Welcome":tier==="plus"?"Plus":"Ultimate";
       const planPrice = key==="simplicity" ? CONFIG.simplicity.priceFullDiscount : CONFIG.myplan[tier][nk];
       const linePerkIds = key==="simplicity" ? (l.simpPerkIds||[]) : (l.myplanPerkIds||[]);
-      const perkCost = linePerkIds.reduce((s,pid)=>{const p=CONFIG.perks.individual.find(x=>x.id===pid);return s+(p?p.price:0);},0);
+      const perkCost = calcLinePerkTotal(linePerkIds);
       const perkNames = linePerkIds.map(pid=>(CONFIG.perks.individual.find(x=>x.id===pid)||{name:""}).name).filter(Boolean);
       const ft = key==="simplicity" ? l.simpFinanceTerm : l.myplanFinanceTerm;
       let devPayment = 0, devNote = "";
@@ -1306,7 +2842,13 @@ function buildResults(anyPromo) {
         const ph = CONFIG.phones[sp.phoneIdx];
         const cap = ph && ph.capacities[sp.capIdx];
         if (cap) {
-          if (ft && ft !== "frp") { devPayment = cap.p/ft; devNote = ph.name+" "+cap.s+": "+fmt(devPayment)+"/mo ("+ft+"-mo 0% APR)"; }
+          const _devCredit = key !== "simplicity" ? calcPromoDeviceCredit(l) : 0;
+          const _effPrice = Math.max(0, cap.p - _devCredit);
+          if (ft && ft !== "frp") {
+            devPayment = _effPrice / ft;
+            const creditNote = _devCredit > 0 ? ` (${fmt(_devCredit)} promo credit)` : "";
+            devNote = ph.name+" "+cap.s+": "+fmt(devPayment)+"/mo ("+ft+"-mo 0% APR"+creditNote+")";
+          }
           else if (ft === "frp") { devNote = ph.name+" "+cap.s+": due today (FRP)"; }
         }
       }
@@ -1315,12 +2857,21 @@ function buildResults(anyPromo) {
         const u = CONFIG.simplicityUpgrades.find(x=>x.id===l.simpUpgrade);
         if (u) { upgradePayment = u.price; upgradeNote = u.name+": +"+fmt(u.price)+"/mo"; }
       }
-      const lineTotal = planPrice + perkCost + devPayment + upgradePayment;
+      const linePromoDisc = (CONFIG.promotions||[]).filter(p=>
+        p.scope!=="account" && isPromoQualified(l,p.id) &&
+        (!p.applies?.planTypes||p.applies.planTypes.includes(key)) &&
+        p.discount?.monthly
+      ).reduce((s,p)=>s+p.discount.monthly,0);
+      const lineTotal = planPrice + perkCost + devPayment + upgradePayment - linePromoDisc;
       return `<div style="margin-bottom:6px;font-size:12px">
         <div style="display:flex;justify-content:space-between"><span style="font-weight:700">${l.name}</span><span>${fmt(lineTotal)}/mo</span></div>
         <div style="color:var(--gray)">${key==="simplicity"?"Simplicity":tierLabel}${perkCost>0?" + "+perkNames.join(", "):""}</div>
         ${devNote?`<div style="color:var(--gray);font-size:11px">${devNote}</div>`:""}
         ${upgradeNote?`<div style="color:var(--gray);font-size:11px">${upgradeNote}</div>`:""}
+        ${(()=>{
+          const qp=(CONFIG.promotions||[]).filter(p=>p.scope!=="account"&&isPromoQualified(l,p.id)&&(!p.applies?.planTypes||p.applies.planTypes.includes(key)));
+          return qp.length?qp.map(p=>`<div style="color:#16a34a;font-size:11px;font-weight:700">✓ ${p.name} <span style="font-weight:400">(-${fmt(p.discount?.monthly||0)}/mo)</span></div>`).join(""):"";
+        })()}
       </div>`;
     }).join("");
     const {tablets, watches} = state.devices;
@@ -1331,8 +2882,21 @@ function buildResults(anyPromo) {
       devRow = `<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px">
         <span style="color:var(--gray)">Connected Devices${dc.disc>0?" (discount applied)":""}</span><span>${fmt(dc.net)}/mo</span></div>`;
     }
+    // Account-level promo discount rows
+    const today2 = new Date().toISOString().slice(0,10);
+    const acctPromos = (CONFIG.promotions||[]).filter(p =>
+      p.scope==="account" && p.discount?.monthly &&
+      (!p.expires || p.expires >= today2) &&
+      (!p.applies?.planTypes || p.applies.planTypes.includes(key)) &&
+      state.lines.some(l => isPromoQualified(l, p.id))
+    );
+    const promoRows = acctPromos.map(p => `
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;color:#16a34a">
+        <span style="font-weight:700">✓ ${p.name}</span><span style="font-weight:700">-${fmt(p.discount.monthly)}/mo</span>
+      </div>
+      <div style="font-size:11px;color:var(--gray);margin-bottom:6px">${p.discount.note||""}</div>`).join("");
     return `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
-      ${lineRows}${devRow}
+      ${lineRows}${devRow}${promoRows}
       <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)">
         <span>Estimated Total</span><span>${fmt(q.grandTotal)}/mo</span>
       </div>
@@ -1411,22 +2975,34 @@ function renderFinancingSection(line, lineIdx, planType) {
     <div class="upgrade-opt-desc">${fmt(price)} due at activation — not added to monthly total</div></div>
     <div class="upgrade-opt-price">${fmt(price)}</div>
   </div>`;
+
+  const promoCredit = line.deviceDeal === "promo" ? calcPromoDeviceCredit(line) : 0;
+  const effectivePrice = Math.max(0, price - promoCredit);
+  const promoNote = promoCredit > 0
+    ? `<div style="background:#dcfce7;border-radius:8px;padding:10px;margin-bottom:10px;font-size:12px">
+        <div style="font-weight:800;color:#16a34a;margin-bottom:2px">✓ ${fmt(promoCredit)} device credit applied</div>
+        <div style="color:#166534">Effective device cost: <strong>${fmt(effectivePrice)}</strong> (${fmt(price)} retail − ${fmt(promoCredit)} BIC)</div>
+       </div>`
+    : line.deviceDeal === "promo"
+    ? `<div class="info-box" style="margin-bottom:8px;font-size:12px">ℹ️ Confirm promo eligibility above — credit will be reflected in monthly total once qualified.</div>`
+    : "";
+  // Finance buttons use effective (post-credit) price
   const terms = planType === "myplan" ? [36] : [12, 24, 36, 48];
-  const finBtns = terms.map(t => {
-    const mo = price / t;
+  const finBtns2 = terms.map(t => {
+    const mo = effectivePrice / t;
+    const origMo = price / t;
+    const savings = promoCredit > 0 ? `<span style="font-size:10px;color:#16a34a;font-weight:700"> (saves ${fmt(origMo-mo)}/mo)</span>` : "";
     return `<div class="upgrade-opt ${ft===t?"sel":""}" onclick="setFinanceTerm(${lineIdx},${t})" style="cursor:pointer">
       <div><div class="upgrade-opt-name">${t}-Month 0% APR</div>
-      <div class="upgrade-opt-desc">${fmt(price)} total · ${t} payments</div></div>
-      <div class="upgrade-opt-price">+${fmt(mo)}/mo</div>
+      <div class="upgrade-opt-desc">${fmt(effectivePrice)} effective · ${t} payments${promoCredit>0?" · "+fmt(promoCredit)+" BIC":""}</div></div>
+      <div class="upgrade-opt-price">+${fmt(mo)}/mo${savings}</div>
     </div>`;
   }).join("");
-  const promoNote = line.deviceDeal === "promo"
-    ? `<div class="info-box" style="margin-bottom:8px;font-size:12px">ℹ️ Promo/trade-in credit applied at activation — confirm amount on InfoManager.</div>` : "";
   const addedNote = (ft && ft !== "frp")
-    ? `<div style="font-size:11px;color:#16a34a;margin-top:4px">✓ ${fmt(price/ft)}/mo added to monthly total.</div>` : "";
+    ? `<div style="font-size:11px;color:#16a34a;margin-top:4px">✓ ${fmt(effectivePrice/ft)}/mo added to monthly total.</div>` : "";
   return `<div class="perk-section">
     <div class="perk-section-title">Device Payment — ${ph.name} ${cap.s}</div>
-    ${promoNote}${frpBtn}${finBtns}${addedNote}
+    ${promoNote}${frpBtn}${finBtns2}${addedNote}
   </div>`;
 }
 
@@ -1508,7 +3084,7 @@ function renderCustomize() {
             ${phoneInfo ? `<div style="font-size:12px;color:var(--gray)">${phoneInfo}</div>` : ""}
             <div style="font-size:12px;color:var(--gray)">${dealLabel(l.deviceDeal)}</div>
           </div>
-          ${(()=>{ const _bp=l.bundleId?(CONFIG.perks.bundles.find(x=>x.id===l.bundleId)||{price:0}).price:0; const _pp=(l.perkIds||[]).reduce((s,pid)=>{const p=CONFIG.perks.individual.find(x=>x.id===pid);return s+(p?p.price:0);},0); const _su=l.simpUpgrade?(CONFIG.simplicityUpgrades.find(x=>x.id===l.simpUpgrade)||{price:0}).price:0; const _ao=_bp+_pp+_su; const _base=CONFIG.simplicity.priceFullDiscount; return `<div style="text-align:right"><div class="tier-price">${fmt(_base+_ao)}</div>${_ao>0?`<div style="font-size:11px;color:var(--gray)">${fmt(_base)} plan + ${fmt(_ao)} add-ons</div>`:""}</div>`; })()}
+          ${(()=>{ const _pp=calcLinePerkTotal(l.perkIds||[]); const _su=l.simpUpgrade?(CONFIG.simplicityUpgrades.find(x=>x.id===l.simpUpgrade)||{price:0}).price:0; const _ao=_pp+_su; const _base=CONFIG.simplicity.priceFullDiscount; return `<div style="text-align:right"><div class="tier-price">${fmt(_base+_ao)}</div>${_ao>0?`<div style="font-size:11px;color:var(--gray)">${fmt(_base)} plan + ${fmt(_ao)} add-ons</div>`:""}</div>`; })()}
         </div>
         ${getSimpHotspotNoteHTML(l)}
 
@@ -1563,7 +3139,7 @@ function renderCustomize() {
             ${phoneInfo ? `<div style="font-size:12px;color:var(--gray)">${phoneInfo}</div>` : ""}
             <div style="font-size:12px;color:var(--gray)">${dealLabel(l.deviceDeal)}</div>
           </div>
-          ${(()=>{ const _bp=l.bundleId?(CONFIG.perks.bundles.find(x=>x.id===l.bundleId)||{price:0}).price:0; const _pp=(l.perkIds||[]).reduce((s,pid)=>{const p=CONFIG.perks.individual.find(x=>x.id===pid);return s+(p?p.price:0);},0); const _ao=_bp+_pp; const _base=prices[tier]; return `<div style="text-align:right"><div class="tier-price">${fmt(_base+_ao)}</div>${_ao>0?`<div style="font-size:11px;color:var(--gray)">${fmt(_base)} plan + ${fmt(_ao)} add-ons</div>`:""}</div>`; })()}
+          ${(()=>{ const _pp=calcLinePerkTotal(l.perkIds||[]); const _ao=_pp; const _base=prices[tier]; return `<div style="text-align:right"><div class="tier-price">${fmt(_base+_ao)}</div>${_ao>0?`<div style="font-size:11px;color:var(--gray)">${fmt(_base)} plan + ${fmt(_ao)} add-ons</div>`:""}</div>`; })()}
         </div>
         <div class="tier-btns">
           <button class="tier-btn ${tier==="welcome"?"sel":""}" onclick="setLineTier(${i},'welcome')">Welcome<br><span style="font-size:11px;font-weight:400">${fmt(prices.welcome)}</span></button>
@@ -1591,37 +3167,132 @@ function renderCustomize() {
     </div>`;
   }
 
+  // ── Promotions section ──
+  const _custToday = new Date().toISOString().slice(0,10);
+  const _custPromos = (CONFIG.promotions||[]).filter(p =>
+    (!p.expires || p.expires >= _custToday) &&
+    (!p.applies?.planTypes || p.applies.planTypes.includes(pt))
+  );
+  if (_custPromos.length) {
+    let promoHtml = `<div class="card" style="margin-top:14px">
+      <div style="font-size:15px;font-weight:800;margin-bottom:12px">Promotions</div>`;
+    _custPromos.forEach(p => {
+      const _expStr = p.expires ? new Date(p.expires+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}) : "";
+      const _isAccount = p.scope === "account";
+
+      // Determine which lines to show toggle for
+      const _targetLines = _isAccount
+        ? [{ l: state.lines[0], li: 0 }]  // account promos operate on line 0
+        : state.lines.map((l,li) => ({l,li})).filter(({l}) =>
+            !p.applies?.dealTypes || p.applies.dealTypes.includes(l.deviceDeal)
+          );
+
+      if (!_targetLines.length) return;
+
+      // Check overall status
+      const _anyOn = _targetLines.some(({l}) => !!(l.promoAnswers||{})[p.id]?.applied);
+      const _allQualified = _targetLines.every(({l}) => isPromoQualified(l, p.id));
+
+      promoHtml += `<div class="promo-card ${_allQualified&&_anyOn?"promo-qualified":_anyOn?"promo-on":""}" style="margin-bottom:10px">
+        <div>
+          <div class="promo-name">${p.name}</div>
+          <div class="promo-tagline">${p.tagline||""}</div>
+          ${p.discount?`<div class="promo-discount">${p.discount.label}</div>`:""}
+          ${p.discount&&p.discount.note?`<div class="promo-note">${p.discount.note}</div>`:""}
+          ${_expStr?`<div class="promo-expires">Expires ${_expStr}</div>`:""}
+          ${p.ost?`<div class="promo-expires">OST # ${p.ost}</div>`:""}
+        </div>
+        ${_targetLines.map(({l,li}) => {
+          const _pa = (l.promoAnswers||{})[p.id] || {};
+          const _isOn = !!_pa.applied;
+          const _allChk = !p.questions||!p.questions.length||p.questions.every(q=>_pa[q.id]);
+          const _qual = _isOn && _allChk;
+          const _lineLabel = !_isAccount && state.lines.length > 1 ? `<div style="font-size:12px;font-weight:700;color:var(--gray);margin-bottom:6px">${l.name}</div>` : "";
+          return `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+            ${_lineLabel}
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+              <span style="font-size:13px">${_qual?"✓ Qualified":"Apply to this line?"}</span>
+              <button class="promo-toggle ${_isOn?"on":""}" onclick="toggleCustomizePromo('${p.id}',${li})">
+                ${_isOn?"✓ Applied":"Apply?"}
+              </button>
+            </div>
+            ${_isOn && p.questions && p.questions.length ? `
+              <div style="margin-top:10px">
+                ${p.questions.map(q=>`
+                  <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;cursor:pointer">
+                    <input type="checkbox" ${_pa[q.id]?"checked":""} onchange="setCustomizePromoQ('${p.id}','${q.id}',this.checked,${li})"
+                      style="width:20px;height:20px;flex-shrink:0;accent-color:var(--red);cursor:pointer">
+                    <span style="font-size:12px;line-height:1.4">${q.text}</span>
+                  </label>`).join("")}
+                ${_qual
+                  ? `<div style="background:#dcfce7;border-radius:8px;padding:8px;font-size:12px;font-weight:800;color:#16a34a;text-align:center">✓ Qualifies!</div>`
+                  : `<div style="background:#fff5f5;border-radius:8px;padding:8px;font-size:12px;color:var(--red);text-align:center">Check all boxes to confirm</div>`}
+              </div>` : ""}
+          </div>`;
+        }).join("")}
+      </div>`;
+    });
+    promoHtml += `</div>`;
+    html += promoHtml;
+  }
+
   document.getElementById("cust-content").innerHTML = html;
   updateLiveTotal();
 }
 
 function renderPerkSection(lineIdx, planType) {
   const l = state.lines[lineIdx];
-  const bundles = CONFIG.perks.bundles;
   const perks = CONFIG.perks.individual;
+  const bundles = CONFIG.perks.bundles;
+  const currentIds = l.perkIds || [];
+
+  // Compute total cost for a perk set with greedy bundle discounts
+  function pTotal(ids) {
+    if (!ids.length) return 0;
+    let rem = [...ids]; let cost = 0;
+    const elig = bundles
+      .filter(b => b.perkIds.length > 0 && b.perkIds.every(id => rem.includes(id)))
+      .map(b => { const st=b.perkIds.reduce((s,id)=>{const p=perks.find(x=>x.id===id);return s+(p?p.price:0);},0); return {...b, saving:st-b.price}; })
+      .filter(b => b.saving > 0).sort((a,b) => b.saving - a.saving);
+    for (const b of elig) { if (b.perkIds.every(id=>rem.includes(id))) { cost+=b.price; rem=rem.filter(id=>!b.perkIds.includes(id)); } }
+    for (const id of rem) { const p=perks.find(x=>x.id===id); if(p) cost+=p.price; }
+    return cost;
+  }
+
+  const baseCost = pTotal(currentIds);
+
+  // Which bundles are fully active (and saving money)?
+  const activeBundles = bundles.filter(b => {
+    const st = b.perkIds.reduce((s,id)=>{const p=perks.find(x=>x.id===id);return s+(p?p.price:0);},0);
+    return b.perkIds.every(id => currentIds.includes(id)) && st > b.price;
+  });
+
+  // Bundle savings banners
+  const bannerHTML = activeBundles.length
+    ? activeBundles.map(b => {
+        const st = b.perkIds.reduce((s,id)=>{const p=perks.find(x=>x.id===id);return s+(p?p.price:0);},0);
+        return `<div style="background:var(--lgray);border-radius:8px;padding:6px 10px;margin-bottom:8px;font-size:11px;display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:var(--red)">📦 ${b.name}</span><span style="color:var(--gray)">saving ${fmt(st-b.price)}/mo</span></div>`;
+      }).join("")
+    : "";
+
   const categories = [...new Set(perks.map(p=>p.category))];
 
-  let bundleHTML = bundles.map(b => {
-    const isSel = l.bundleId === b.id;
-    const saves = b.retailValue > b.price ? Math.round((1-b.price/b.retailValue)*100) : 0;
-    return `<div class="bundle-card ${isSel?"sel":""}" onclick="toggleBundle(${lineIdx},'${b.id}')">
-      <div class="bundle-hd">
-        <div class="bundle-name">${b.name}</div>
-        <div><div class="bundle-price">+${fmt(b.price)}/mo</div>${saves>0?`<div class="bundle-saves">${saves}% off retail</div>`:""}</div>
-      </div>
-      <div class="bundle-inc">${b.perkIds.map(id=>{const p=perks.find(x=>x.id===id);return p?p.name:id}).join(", ")}</div>
-    </div>`;
-  }).join("");
-
-  let indvHTML = categories.map(cat => {
+  const perksHTML = categories.map(cat => {
     const catPerks = perks.filter(p=>p.category===cat);
     return `<div class="perk-section-title" style="margin-top:10px">${cat}</div>` +
       catPerks.map(p => {
-        const isOn = l.perkIds.includes(p.id);
+        const isOn = currentIds.includes(p.id);
+        const newIds = isOn ? currentIds.filter(id=>id!==p.id) : [...currentIds, p.id];
+        const marginal = Math.abs(pTotal(newIds) - baseCost);
+        const inBundle = activeBundles.find(b => b.perkIds.includes(p.id));
         return `<div class="perk-row">
-          <div><div class="perk-name">${p.name}</div>${p.desc?`<div class="perk-sub">${p.desc}</div>`:""}</div>
+          <div>
+            <div class="perk-name">${p.name}</div>
+            ${p.desc ? `<div class="perk-sub">${p.desc}</div>` : ""}
+            ${inBundle ? `<div class="perk-sub" style="color:var(--red);font-weight:600">${inBundle.name}</div>` : ""}
+          </div>
           <div class="perk-right">
-            <span class="perk-price">+${fmt(p.price)}/mo</span>
+            <span class="perk-price">+${fmt(marginal)}/mo</span>
             <button class="perk-toggle ${isOn?"on":""}" onclick="togglePerk(${lineIdx},'${p.id}')"></button>
           </div>
         </div>`;
@@ -1632,15 +3303,12 @@ function renderPerkSection(lineIdx, planType) {
 
   return `<div class="perk-section">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div class="perk-section-title" style="margin-bottom:0">Bundles &amp; Perks</div>
+      <div class="perk-section-title" style="margin-bottom:0">Add-Ons &amp; Perks</div>
       <button style="font-size:12px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer" onclick="togglePerkExpand(${lineIdx})"
         id="perk-expand-btn-${lineIdx}">${_isExpanded ? "Hide ▲" : "Show ▼"}</button>
     </div>
     <div id="perk-body-${lineIdx}" ${_isExpanded ? "" : 'class="hidden"'}>
-      <div class="perk-section-title">Bundles (select one)</div>
-      ${bundleHTML}
-      <div class="perk-section-title" style="margin-top:14px">Individual Add-Ons</div>
-      ${indvHTML}
+      ${bannerHTML}${perksHTML}
     </div>
   </div>`;
 }
@@ -1715,7 +3383,6 @@ function getTierNoteHTML(line, tier) {
     notes.push({warn:true, text:`${tier==="welcome"?"Welcome":"Plus"} does not include international data. Requested: more than once/year. Ultimate includes 15 GB; TravelPass at $12/day.`});
   }
   if (line.deviceDeal === "promo") {
-    notes.push({warn:true, text:`Device promotions require myPlan — not available on Simplicity.`});
   }
   return notes.map(n => `<div style="font-size:12px;padding:8px 10px;border-radius:8px;margin-top:8px;background:#fff8e1;border:1px solid #ffc107">⚠️ ${n.text}</div>`).join("");
 }
@@ -1746,21 +3413,19 @@ function calcLiveTotal() {
       const tier = l.selectedPlan || "welcome";
       total += CONFIG.myplan[tier][nk];
     }
-    // Device financing (monthly payment)
+    // Device financing (monthly payment) — apply device promo credit
     if (l.financeTerm && l.financeTerm !== "frp" && l.selectedPhone && l.selectedPhone.capIdx !== null && l.selectedPhone.capIdx !== undefined) {
       const _ph = CONFIG.phones[l.selectedPhone.phoneIdx];
-      if (_ph) { const _c = _ph.capacities[l.selectedPhone.capIdx]; if (_c) total += _c.p / l.financeTerm; }
+      if (_ph) {
+        const _c = _ph.capacities[l.selectedPhone.capIdx];
+        if (_c) {
+          const _credit = calcPromoDeviceCredit(l);
+          total += Math.max(0, _c.p - _credit) / l.financeTerm;
+        }
+      }
     }
-    // Bundle
-    if (l.bundleId) {
-      const b = CONFIG.perks.bundles.find(x=>x.id===l.bundleId);
-      if (b) total += b.price;
-    }
-    // Individual perks
-    l.perkIds.forEach(pid => {
-      const p = CONFIG.perks.individual.find(x=>x.id===pid);
-      if (p) total += p.price;
-    });
+    // Perks (with bundle discounts applied automatically)
+    total += calcLinePerkTotal(l.perkIds);
   });
 
   // Devices
@@ -1770,6 +3435,8 @@ function calcLiveTotal() {
     total += calcDeviceDiscount(pt==="simplicity"?"simplicity":"myplan", tablets, watches, _slots).net;
   }
 
+  // Account promo discounts
+  total -= calcAccountPromoDiscount(pt === "simplicity" ? "simplicity" : "myplan");
   return Math.round(total * 100) / 100;
 }
 
@@ -1815,8 +3482,10 @@ function buildCustomerCopy() {
     const price = pt==="simplicity" ? CONFIG.simplicity.priceFullDiscount : CONFIG.myplan[l.selectedPlan||"welcome"][nk];
     const phone = getPhoneLabel(l.selectedPhone);
     const perks = [];
-    if (l.bundleId) { const b=CONFIG.perks.bundles.find(x=>x.id===l.bundleId); if(b) perks.push(b.name+" bundle (+"+fmt(b.price)+"/mo)"); }
-    l.perkIds.forEach(pid => { const p=CONFIG.perks.individual.find(x=>x.id===pid); if(p) perks.push(p.name+" (+"+fmt(p.price)+"/mo)"); });
+    const _aB=CONFIG.perks.bundles.filter(b=>{const st=b.perkIds.reduce((s,id)=>{const p=CONFIG.perks.individual.find(x=>x.id===id);return s+(p?p.price:0);},0);return b.perkIds.every(id=>l.perkIds.includes(id))&&st>b.price;});
+    const _bIds=new Set(_aB.flatMap(b=>b.perkIds));
+    _aB.forEach(b=>perks.push(b.name+" bundle (+"+fmt(b.price)+"/mo)"));
+    l.perkIds.filter(id=>!_bIds.has(id)).forEach(pid=>{const p=CONFIG.perks.individual.find(x=>x.id===pid);if(p)perks.push(p.name+" (+"+fmt(p.price)+"/mo)");});
     let devFinance = "";
     if (l.deviceDeal !== "byod" && l.selectedPhone && l.selectedPhone.capIdx !== null && l.selectedPhone.capIdx !== undefined) {
       const ph = CONFIG.phones[l.selectedPhone.phoneIdx];
@@ -1827,7 +3496,9 @@ function buildCustomerCopy() {
         else devFinance = "\n    Device: "+ph.name+" "+cap.s+" — "+l.financeTerm+"-mo 0% APR "+fmt(cap.p/l.financeTerm)+"/mo";
       }
     }
-    return `  • ${l.name}: ${tier} — ${fmt(price)}/mo${devFinance}${phone&&!devFinance?"\n    Device: "+phone:""}${perks.length?"\n    Add-Ons: "+perks.join(", "):""}`;
+    const _qp=(CONFIG.promotions||[]).filter(p=>isPromoQualified(l,p.id));
+    const _promoLine=_qp.length?"\n    Promos: "+_qp.map(p=>p.name+(p.discount?" ("+p.discount.label+")":"")).join(", "):"";
+    return `  • ${l.name}: ${tier} — ${fmt(price)}/mo${devFinance}${phone&&!devFinance?"\n    Device: "+phone:""}${perks.length?"\n    Add-Ons: "+perks.join(", "):""}${_promoLine}`;
   }).join("\n");
 
   const {tablets,watches} = state.devices;
@@ -1839,7 +3510,11 @@ function buildCustomerCopy() {
     if (dc.disc > 0) devText += ` (saving ${fmt(dc.disc)}/mo with plan discount)`;
   }
 
-  const text = `Verizon Plan Quote — ${date}\n\nPlan: ${pt==="simplicity"?"Simplicity":"myPlan (Mix & Match)"}\nLines: ${state.lineCount}\n\n${lines}${devText}\n\n${"─".repeat(36)}\nEstimated Monthly Total: ${fmt(total)}/mo\n(Before taxes & fees. Includes Auto Pay discount.)\n${"─".repeat(36)}\n\nQuestions? Reply to this message or visit your Best Buy store.`;
+    const _acctPd = calcAccountPromoDiscount(pt==="simplicity"?"simplicity":"myplan");
+  const _promoText = _acctPd > 0
+    ? (CONFIG.promotions||[]).filter(p=>p.scope==="account"&&p.discount?.monthly&&(!p.applies?.planTypes||p.applies.planTypes.includes(pt==="simplicity"?"simplicity":"myplan"))&&state.lines.some(l=>isPromoQualified(l,p.id))).map(p=>`\n  • ${p.name}: -${fmt(p.discount.monthly)}/mo (${p.discount.note||""})`) .join("")
+    : "";
+  const text = `Verizon Plan Quote — ${date}\n\nPlan: ${pt==="simplicity"?"Simplicity":"myPlan (Mix & Match)"}\nLines: ${state.lineCount}\n\n${lines}${devText}${_promoText?("\n\nApplied Promotions:"+_promoText):""}\n\n${"─".repeat(36)}\nEstimated Monthly Total: ${fmt(total)}/mo\n(Before taxes & fees. Includes Auto Pay discount.)\n${"─".repeat(36)}\n\nQuestions? Reply to this message or visit your Best Buy store.`;
 
   document.getElementById("customer-copy").textContent = text;
   return text;
@@ -2269,6 +3944,4 @@ if (CONFIG.email.publicKey) {
   s.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
   document.head.appendChild(s);
 }
-</script>
-</body>
-</html>
+</script></body></html>
