@@ -2754,11 +2754,18 @@ function autoAssignHotspotPerks() {
     }
     const tiers = ["welcome","plus","ultimate"];
     let best = null;
+    const {tablets, watches} = state.devices;
+    const n = state.lineCount;
     tiers.forEach(tier => {
       if (l.travel >= 2 && tier !== "ultimate") return; // travel forces ultimate
       const tierPrice = CONFIG.myplan[tier][nk];
       const {perkId, perkPrice} = perkForTier(tier);
-      const cost = tierPrice + perkPrice;
+      // Account for tablet/watch device discount slots (amortized across all lines)
+      const totalSlots = n * (tier === "ultimate" ? 2 : tier === "plus" ? 1 : 0);
+      const devDisc = (tablets + watches > 0 && totalSlots > 0)
+        ? calcDeviceDiscount("myplan", tablets, watches, totalSlots).disc / n
+        : 0;
+      const cost = tierPrice + perkPrice - devDisc;
       if (!best || cost < best.cost) best = {tier, perkId, cost};
     });
     if (best) {
